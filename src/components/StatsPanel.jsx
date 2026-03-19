@@ -1,4 +1,5 @@
 import React from "react";
+import Badge from "./ui/Badge";
 
 function StatsPanel({ curState, hits, misses, wbs }) {
   const hitRate = hits + misses > 0 ? Math.round((hits / (hits + misses)) * 100) : 0;
@@ -8,9 +9,9 @@ function StatsPanel({ curState, hits, misses, wbs }) {
       <div className="ph">
         <span className="ph-label">Execution</span>
         {curState && (
-          <span className={`schip sc-${curState}`}>
+          <Badge variant={curState}>
             {curState.replace("_", " ")}
-          </span>
+          </Badge>
         )}
       </div>
 

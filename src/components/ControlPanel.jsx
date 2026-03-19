@@ -1,5 +1,13 @@
-import React from "react";
 import { SC } from "../fsm/constants";
+import Button from "./ui/Button";
+import {
+  SkipBack,
+  Rewind,
+  Play,
+  Pause,
+  FastForward,
+  SkipForward,
+} from "lucide-react";
 
 function ControlPanel({
   total,
@@ -17,47 +25,39 @@ function ControlPanel({
     setRunning((r) => !r);
   };
 
+  const iconProps = { size: 16, strokeWidth: 2, className: "icon" };
+
   return (
     <div className="transport">
-      <button
-        className="btn"
-        onClick={() => seek(0)}
-        disabled={!total || running}
-      >
-        ⏮
-      </button>
+      <Button onClick={() => seek(0)} disabled={!total || running}>
+        <SkipBack {...iconProps} />
+      </Button>
 
-      <button
-        className="btn"
+      <Button
         onClick={() => seek(Math.max(0, step - 1))}
         disabled={step <= 0 || running}
       >
-        ⏪
-      </button>
+        <Rewind {...iconProps} />
+      </Button>
 
-      <button
-        className={`btn ${running ? "run" : "primary"}`}
+      <Button
+        variant={running ? "run" : "primary"}
         onClick={handleToggleRun}
         disabled={!total}
       >
-        {running ? "⏸" : "▶"}
-      </button>
+        {running ? <Pause {...iconProps} /> : <Play {...iconProps} />}
+      </Button>
 
-      <button
-        className="btn"
+      <Button
         onClick={() => seek(Math.min(total - 1, step + 1))}
         disabled={step >= total - 1 || running}
       >
-        ⏩
-      </button>
+        <FastForward {...iconProps} />
+      </Button>
 
-      <button
-        className="btn"
-        onClick={() => seek(total - 1)}
-        disabled={!total || running}
-      >
-        ⏭
-      </button>
+      <Button onClick={() => seek(total - 1)} disabled={!total || running}>
+        <SkipForward {...iconProps} />
+      </Button>
 
       <div className="cyc">
         {cur ? <b>{cur.cycle}</b> : "—"} / {total || "—"}

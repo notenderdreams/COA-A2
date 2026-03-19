@@ -1,4 +1,5 @@
 import React from "react";
+import Badge from "./ui/Badge";
 
 const HEADERS = ["#", "State", "Note", "STC", "MRD", "MWR", "CWR", "RDY"];
 
@@ -98,9 +99,9 @@ function TraceTable({ trace, step, onSeek }) {
                     borderBottom: "1px solid var(--border)",
                   }}
                 >
-                  <span className={`schip sc-${row.state}`}>
+                  <Badge variant={row.state}>
                     {shortState(row.state)}
-                  </span>
+                  </Badge>
                 </td>
 
                 <td

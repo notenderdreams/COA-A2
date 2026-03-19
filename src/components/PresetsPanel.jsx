@@ -1,5 +1,7 @@
 import React from "react";
 import { PRESETS, buildPresetRun } from "../fsm/presets";
+import Tag from "./ui/Tag";
+import Button from "./ui/Button";
 
 function fmtAddr(addr) {
   return addr.toString(16).toUpperCase().padStart(8, "0").slice(-5);
@@ -56,9 +58,9 @@ function PresetsPanel({ onApplyPreset, onBeforeLoad }) {
               }}
             >
               {reqs.slice(0, 10).map((r, i) => (
-                <span key={i} className={`qtag ${r.t === "R" ? "r" : "w"}`}>
+                <Tag key={i} type={r.t}>
                   {r.t}:{fmtAddr(r.a)}
-                </span>
+                </Tag>
               ))}
 
               {reqs.length > 10 && (
@@ -69,9 +71,9 @@ function PresetsPanel({ onApplyPreset, onBeforeLoad }) {
             </div>
           </div>
 
-          <button className="btn primary" onClick={() => handleLoadPreset(name)}>
+          <Button variant="primary" onClick={() => handleLoadPreset(name)}>
             Load Preset
-          </button>
+          </Button>
         </div>
       ))}
     </div>

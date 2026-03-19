@@ -19,6 +19,8 @@ import ControlPanel from "./components/ControlPanel";
 import PresetsPanel from "./components/PresetsPanel";
 import TraceTable from "./components/TraceTable";
 import StatsPanel from "./components/StatsPanel";
+import Tab from "./components/ui/Tab";
+import SignalBadge from "./components/ui/SignalBadge";
 
 function useFill(state) {
   const [pct, setPct] = useState(0);
@@ -287,12 +289,7 @@ function App() {
                 }}
               >
                 {Object.entries(curSigs).map(([k, v]) => (
-                  <div
-                    key={k}
-                    className={`sp ${v ? "on " + (sigCls[k] || "") : ""}`}
-                  >
-                    {k.replace(/_/g, " ")} = <b>{v}</b>
-                  </div>
+                  <SignalBadge key={k} signalName={k} value={v} variantClass={sigCls[k]} />
                 ))}
               </div>
             </div>
@@ -326,30 +323,30 @@ function App() {
             wbs={wbs}
           />
           <div className="tabs">
-            <div
-              className={`tab ${activeTab === "cache" ? "active" : ""}`}
+            <Tab
+              active={activeTab === "cache"}
               onClick={() => setActiveTab("cache")}
             >
               Cache State
-            </div>
-            <div
-              className={`tab ${activeTab === "trace" ? "active" : ""}`}
+            </Tab>
+            <Tab
+              active={activeTab === "trace"}
               onClick={() => setActiveTab("trace")}
             >
               Trace
-            </div>
-            <div
-              className={`tab ${activeTab === "memory" ? "active" : ""}`}
+            </Tab>
+            <Tab
+              active={activeTab === "memory"}
               onClick={() => setActiveTab("memory")}
             >
               Memory
-            </div>
-            <div
-              className={`tab ${activeTab === "presets" ? "active" : ""}`}
+            </Tab>
+            <Tab
+              active={activeTab === "presets"}
               onClick={() => setActiveTab("presets")}
             >
               Presets
-            </div>
+            </Tab>
           </div>
           <div className="tab-content">
             {activeTab === "cache" ? (

@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import Badge from "./ui/Badge";
 
 export const MemoryTable = memo(function MemoryTable({ mem }) {
   const blocks = Object.keys(mem)
@@ -79,12 +80,12 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
                   {h8(addr)}
                 </td>
                 <td style={{ ...TD }}>
-                  <span
-                    className={`schip ${isWB ? "sc-Write_Back" : "sc-Compare_Tag"}`}
+                  <Badge
+                    variant={isWB ? "Write_Back" : "Compare_Tag"}
                     style={{ fontSize: "7px" }}
                   >
                     {isWB ? "WRITTEN" : "READ"}
-                  </span>
+                  </Badge>
                 </td>
                 {[3, 2, 1, 0].map((wi) => {
                   const wordAddr = addr + wi * 4;

@@ -1,17 +1,7 @@
 import React from "react";
-
-function Divider() {
-  return (
-    <div
-      style={{
-        width: "1px",
-        height: "14px",
-        background: "var(--border2)",
-        margin: "0 4px",
-      }}
-    />
-  );
-}
+import Button from "./ui/Button";
+import Divider from "./ui/Divider";
+import Input from "./ui/Input";
 
 function OpPanel({
   addrStr,
@@ -25,7 +15,7 @@ function OpPanel({
   return (
     <div className="enq-row">
       <span className="lbl">ADDR</span>
-      <input
+      <Input
         type="text"
         value={addrStr}
         onChange={(e) => setAddrStr(e.target.value)}
@@ -35,8 +25,8 @@ function OpPanel({
 
       <Divider />
 
-      <button
-        className="btn primary"
+      <Button
+        variant="primary"
         onClick={handleRead}
         style={{
           background: "var(--blue)",
@@ -45,12 +35,12 @@ function OpPanel({
         }}
       >
         + Read
-      </button>
+      </Button>
 
       <Divider />
 
       <span className="lbl">DATA</span>
-      <input
+      <Input
         type="text"
         value={dataStr}
         onChange={(e) => setDataStr(e.target.value)}
@@ -58,8 +48,8 @@ function OpPanel({
         placeholder="0x000000AB"
       />
 
-      <button
-        className="btn primary"
+      <Button
+        variant="primary"
         onClick={handleWrite}
         style={{
           background: "var(--purple)",
@@ -68,13 +58,13 @@ function OpPanel({
         }}
       >
         + Write
-      </button>
+      </Button>
 
       <div style={{ flex: 1 }} />
 
-      <button className="btn danger" onClick={reset}>
+      <Button variant="danger" onClick={reset}>
         ↺ Reset
-      </button>
+      </Button>
     </div>
   );
 }
