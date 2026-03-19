@@ -5,7 +5,7 @@ function StatsPanel({ curState, hits, misses, wbs }) {
   const hitRate = hits + misses > 0 ? Math.round((hits / (hits + misses)) * 100) : 0;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
       <div className="ph">
         <span className="ph-label">Execution</span>
         {curState && (

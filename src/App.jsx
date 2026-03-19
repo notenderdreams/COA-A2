@@ -16,7 +16,7 @@ import "./index.css";
 import Queue from "./components/Queue";
 import OpPanel from "./components/OpPanel";
 import ControlPanel from "./components/ControlPanel";
-import PresetsPanel from "./components/PresetsPanel";
+import PresetTable from "./components/PresetTable";
 import TraceTable from "./components/TraceTable";
 import StatsPanel from "./components/StatsPanel";
 import Tab from "./components/ui/Tab";
@@ -358,7 +358,7 @@ function App() {
             ) : activeTab === "memory" ? (
               <MemoryTable mem={dispMem} />
             ) : activeTab === "presets" ? (
-              <PresetsPanel
+              <PresetTable
                 onBeforeLoad={reset}
                 onApplyPreset={applyPresetResult}
               />

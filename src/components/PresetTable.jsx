@@ -1,4 +1,3 @@
-import React from "react";
 import { PRESETS, buildPresetRun } from "../fsm/presets";
 import Tag from "./ui/Tag";
 import Button from "./ui/Button";
@@ -7,7 +6,7 @@ function fmtAddr(addr) {
   return addr.toString(16).toUpperCase().padStart(8, "0").slice(-5);
 }
 
-function PresetsPanel({ onApplyPreset, onBeforeLoad }) {
+function PresetTable({ onApplyPreset, onBeforeLoad }) {
   function handleLoadPreset(name) {
     if (onBeforeLoad) onBeforeLoad();
     setTimeout(() => {
@@ -80,4 +79,4 @@ function PresetsPanel({ onApplyPreset, onBeforeLoad }) {
   );
 }
 
-export default PresetsPanel;
+export default PresetTable;
