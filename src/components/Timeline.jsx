@@ -5,7 +5,6 @@ const TimelineRow = memo(function TimelineRow({
   label,
   sg,
   cf,
-  formatValue,
   isState,
   total,
   trackRef,
@@ -54,7 +53,7 @@ const TimelineRow = memo(function TimelineRow({
                 onSeek(seg.s);
               }}
             >
-              {seg.pct > 6 ? (formatValue ? formatValue(seg.v) : "") : ""}
+              {""}
             </div>
           );
         })}
@@ -209,14 +208,6 @@ export const Timeline = memo(function Timeline({
           label="STATE"
           sg={stSegs}
           cf={(v) => TLC[v]}
-          formatValue={(v) =>
-            ({
-              Idle: "IDLE",
-              Compare_Tag: "CMP",
-              Write_Back: "WB",
-              Allocate: "ALLOC",
-            })[v] || v
-          }
           isState={true}
           total={total}
           trackRef={trackRef}
