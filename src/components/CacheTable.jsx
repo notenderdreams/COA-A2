@@ -29,7 +29,7 @@ export const CacheTable = memo(function CacheTable({
   const TH = {
     padding: "4px 0 6px",
     borderBottom: "1px solid var(--border)",
-    fontSize: "7.5px",
+    fontSize: "8.5px",
     color: "var(--text3)",
     fontWeight: 600,
     letterSpacing: ".05em",
@@ -54,11 +54,11 @@ export const CacheTable = memo(function CacheTable({
           color: act ? "var(--amber)" : "var(--text3)",
         }}
       >
-        <div>W{wi}</div>
+        <div style={{ fontSize: "9px" }}>W{wi}</div>
         <div
           style={{
             fontWeight: 400,
-            fontSize: "7px",
+            fontSize: "7.5px",
             opacity: 0.7,
             marginTop: "2px",
           }}
@@ -171,30 +171,39 @@ export const CacheTable = memo(function CacheTable({
                     </span>
                   </td>
                   <td className="border-b border-border2 px-0 py-1.5 text-center">
-                    <span
-                      className={`inline-flex size-3 rounded-[2px] text-[7.5px] font-semibold leading-3 ${l.valid ? "bg-green/15 text-green" : "bg-bg3 text-text3"}`}
-                    >
-                      {l.valid ? "1" : "0"}
-                    </span>
+                    <div className="flex h-5 items-center justify-center">
+                      <span
+                        className={`inline-flex h-4 w-4 items-center justify-center rounded-xs text-[7.5px] font-semibold leading-none ${l.valid ? "bg-green/15 text-green" : "bg-bg3 text-text3"}`}
+                      >
+                        {l.valid ? "1" : "0"}
+                      </span>
+                    </div>
                   </td>
                   <td className="border-b border-border2 px-0 py-1.5 text-center">
-                    <span
-                      className={`inline-flex size-3 rounded-[2px] text-[7.5px] font-semibold leading-3 ${isDirty ? "bg-amber/15 text-amber" : "bg-bg3 text-text3"}`}
-                    >
-                      {isDirty ? "1" : "0"}
-                    </span>
+                    <div className="flex h-5 items-center justify-center">
+                      <span
+                        className={`inline-flex h-4 w-4 items-center justify-center rounded-xs text-[7.5px] font-semibold leading-none ${isDirty ? "bg-amber/15 text-amber" : "bg-bg3 text-text3"}`}
+                      >
+                        {isDirty ? "1" : "0"}
+                      </span>
+                    </div>
                   </td>
-                  <td
-                    className="border-b border-border2 px-1.5 py-1.5 font-mono text-[8.5px]"
-                    style={{
-                      color: isActive
-                        ? "var(--blue)"
-                        : isDirty
-                          ? "var(--amber)"
-                          : "var(--text2)",
-                    }}
-                  >
-                    {l.valid ? h5(l.tag) : "—"}
+                  <td className="border-b border-border2 px-1.5 py-1.5 align-middle">
+                    <div className="flex h-full items-center">
+                      <span
+                        className="font-mono text-[9.5px]"
+                        style={{
+                          fontWeight: isActive ? 700 : 400,
+                          color: isActive
+                            ? "var(--blue)"
+                            : isDirty
+                              ? "var(--amber)"
+                              : "var(--text2)",
+                        }}
+                      >
+                        {l.valid ? h5(l.tag) : "—"}
+                      </span>
+                    </div>
                   </td>
                   {[3, 2, 1, 0].map((wi) =>
                     WCell(
