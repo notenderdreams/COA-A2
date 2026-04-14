@@ -18,7 +18,7 @@ export default function SignalBadge({
   return (
     <div
       className={cn(
-        "rounded-sm border border-[var(--border2)] bg-[var(--bg3)] px-2 py-1 text-xs font-semibold text-[var(--text3)] transition-all",
+        "flex w-full min-w-0 items-center justify-center whitespace-nowrap rounded-sm border border-(--border2) bg-(--bg3) px-1 py-0.5 text-[10px] font-semibold leading-none text-(--text3) transition-all",
         value && variantMap[variantClass ?? ""],
         className,
       )}
