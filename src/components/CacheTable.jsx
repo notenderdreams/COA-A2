@@ -104,30 +104,32 @@ export const CacheTable = memo(function CacheTable({
   }
 
   return (
-    <div className="cache-wrap">
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <div className="shrink-0 border-b border-border">
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
           <thead>
             <tr>
               <th
-                style={{
-                  ...TH,
-                  minWidth: "70px",
-                  textAlign: "left",
-                  paddingLeft: "10px",
-                }}
+                className="sticky top-0 bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                style={{ minWidth: "70px", paddingLeft: "10px" }}
               >
                 Set
               </th>
-              <th style={{ ...TH, width: "28px" }}>V</th>
-              <th style={{ ...TH, width: "28px" }}>D</th>
               <th
-                style={{
-                  ...TH,
-                  minWidth: "70px",
-                  textAlign: "left",
-                  paddingLeft: "6px",
-                }}
+                className="sticky top-0 bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                style={{ width: "28px" }}
+              >
+                V
+              </th>
+              <th
+                className="sticky top-0 bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                style={{ width: "28px" }}
+              >
+                D
+              </th>
+              <th
+                className="sticky top-0 bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                style={{ minWidth: "70px", paddingLeft: "6px" }}
               >
                 Tag
               </th>
@@ -146,51 +148,45 @@ export const CacheTable = memo(function CacheTable({
                 <tr
                   key={i}
                   ref={(el) => (rowRefs.current[i] = el)}
-                  style={{
-                    background: isActive
-                      ? "rgba(122,162,247,.07)"
+                  className={
+                    isActive
+                      ? "bg-blue/10"
                       : isDirty
-                        ? "rgba(224,175,104,.04)"
-                        : "transparent",
-                  }}
+                        ? "bg-amber/5"
+                        : "bg-transparent"
+                  }
                 >
                   <td
+                    className="border-b border-border2 px-2 py-1.5 text-left"
                     style={{
-                      ...TD,
                       borderLeft: isActive
                         ? "2px solid var(--blue)"
                         : "2px solid transparent",
-                      padding: "5px 8px",
-                      textAlign: "left",
                     }}
                   >
                     <span
-                      style={{
-                        fontSize: "9.5px",
-                        fontFamily: "var(--mono)",
-                        fontWeight: isActive ? 600 : 400,
-                        color: isActive ? "var(--text)" : "var(--text2)",
-                      }}
+                      className={`font-mono text-[9.5px] ${isActive ? "font-semibold text-text" : "font-normal text-text2"}`}
                     >
                       {i}
                     </span>
                   </td>
-                  <td style={{ ...TD, textAlign: "center", padding: "5px 0" }}>
-                    <span className={`vbit ${l.valid ? "v1" : "v0"}`}>
+                  <td className="border-b border-border2 px-0 py-1.5 text-center">
+                    <span
+                      className={`inline-flex size-3 rounded-[2px] text-[7.5px] font-semibold leading-3 ${l.valid ? "bg-green/15 text-green" : "bg-bg3 text-text3"}`}
+                    >
                       {l.valid ? "1" : "0"}
                     </span>
                   </td>
-                  <td style={{ ...TD, textAlign: "center", padding: "5px 0" }}>
-                    <span className={`vbit ${isDirty ? "d1" : "d0"}`}>
+                  <td className="border-b border-border2 px-0 py-1.5 text-center">
+                    <span
+                      className={`inline-flex size-3 rounded-[2px] text-[7.5px] font-semibold leading-3 ${isDirty ? "bg-amber/15 text-amber" : "bg-bg3 text-text3"}`}
+                    >
                       {isDirty ? "1" : "0"}
                     </span>
                   </td>
                   <td
+                    className="border-b border-border2 px-1.5 py-1.5 font-mono text-[8.5px]"
                     style={{
-                      ...TD,
-                      padding: "5px 6px",
-                      fontSize: "8.5px",
-                      fontFamily: "var(--mono)",
                       color: isActive
                         ? "var(--blue)"
                         : isDirty
@@ -200,7 +196,7 @@ export const CacheTable = memo(function CacheTable({
                   >
                     {l.valid ? h5(l.tag) : "—"}
                   </td>
-                  {...[3, 2, 1, 0].map((wi) =>
+                  {[3, 2, 1, 0].map((wi) =>
                     WCell(
                       wi,
                       l.valid && Array.isArray(l.data) ? l.data[wi] : null,
@@ -214,16 +210,7 @@ export const CacheTable = memo(function CacheTable({
           </tbody>
         </table>
       </div>
-      <div
-        style={{
-          padding: "3px 10px",
-          fontSize: "7.5px",
-          color: "var(--text3)",
-          borderTop: "1px solid var(--border)",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="flex justify-between border-t border-border px-2.5 py-0.75 text-[7.5px] text-text3">
         <span>all 1024 sets loaded</span>
         <span>each row = 16B block · bar = value magnitude</span>
       </div>

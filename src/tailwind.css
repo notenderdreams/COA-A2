@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-bg: #1a1a1a;
+  --color-bg2: #222222;
+  --color-bg3: #2a2a2a;
+  --color-bg4: #313131;
+  --color-border: #111111;
+  --color-border2: #3a3a3a;
+  --color-text: #a9b1d6;
+  --color-text2: #787c99;
+  --color-text3: #4a4a5a;
+  --color-green: #73daca;
+  --color-red: #f7768e;
+  --color-amber: #e0af68;
+  --color-purple: #bb9af7;
+  --color-blue: #7aa2f7;
+  --color-orange: #ff9e64;
+  --color-cyan: #7dcfff;
+
+  /* Typography */
+  --font-mono: "JetBrains Mono", monospace;
+  --font-size-xs: 10px; /* 2.5 units */
+  --font-size-sm: 12px; /* 3 units */
+  --font-size-base: 14px; /* 3.5 units */
+  --font-size-md: 16px; /* 4 units */
+  --font-size-lg: 18px; /* 4.5 units */
+  --font-size-xl: 20px; /* 5 units */
+  --font-size-2xl: 24px; /* 6 units */
+
+  /* Spacing (4px base unit) */
+  --spacing-xs: 4px; /* 1 unit */
+  --spacing-sm: 8px; /* 2 units */
+  --spacing-md: 12px; /* 3 units */
+  --spacing-lg: 16px; /* 4 units */
+  --spacing-xl: 20px; /* 5 units */
+  --spacing-2xl: 24px; /* 6 units */
+  --spacing-3xl: 32px; /* 8 units */
+  --spacing-4xl: 40px; /* 10 units */
+  --spacing-5xl: 48px; /* 12 units */
+
+  /* Border Radius (4px base) */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Sizing (multiples of 4) */
+  --size-1: 4px; /* 1 unit */
+  --size-2: 8px; /* 2 units */
+  --size-3: 12px; /* 3 units */
+  --size-4: 16px; /* 4 units */
+  --size-5: 20px; /* 5 units */
+  --size-6: 24px; /* 6 units */
+  --size-7: 28px; /* 7 units */
+  --size-8: 32px; /* 8 units */
+  --size-10: 40px; /* 10 units */
+  --size-12: 48px; /* 12 units */
+  --size-14: 56px; /* 14 units */
+  --size-16: 64px; /* 16 units */
+  --size-20: 80px; /* 20 units */
+  --size-24: 96px; /* 24 units */
+  --size-28: 112px; /* 28 units */
+  --size-32: 128px; /* 32 units */
+  --size-36: 144px; /* 36 units */
+  --size-40: 160px; /* 40 units */
+  --size-48: 192px; /* 48 units */
+  --size-56: 224px; /* 56 units */
+  --size-60: 240px; /* 60 units */
+}
+
+@layer base {
+  :root {
+    --bg: #1a1a1a;
+    --bg2: #222222;
+    --bg3: #2a2a2a;
+    --bg4: #313131;
+    --border: #111111;
+    --border2: #3a3a3a;
+    --text: #a9b1d6;
+    --text2: #787c99;
+    --text3: #4a4a5a;
+    --green: #73daca;
+    --red: #f7768e;
+    --amber: #e0af68;
+    --purple: #bb9af7;
+    --blue: #7aa2f7;
+    --orange: #ff9e64;
+    --cyan: #7dcfff;
+    --mono: "JetBrains Mono", monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  body.resizing {
+    cursor: col-resize !important;
+    user-select: none !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+  }
+}

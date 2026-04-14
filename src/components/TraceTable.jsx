@@ -24,32 +24,13 @@ function shortState(state) {
 
 function TraceTable({ trace, step, onSeek }) {
   return (
-    <table
-      style={{
-        width: "100%",
-        borderCollapse: "collapse",
-        fontFamily: "var(--mono)",
-      }}
-    >
+    <table className="w-full border-collapse font-mono text-sm">
       <thead>
         <tr>
           {HEADERS.map((c) => (
             <th
               key={c}
-              style={{
-                padding: "5px 8px",
-                textAlign: "left",
-                fontSize: "8px",
-                fontWeight: 600,
-                letterSpacing: ".07em",
-                textTransform: "uppercase",
-                color: "var(--text3)",
-                borderBottom: "1px solid var(--border)",
-                background: "var(--bg2)",
-                position: "sticky",
-                top: 0,
-                zIndex: 1,
-              }}
+              className="sticky top-0 z-1 border-b border-border bg-bg2 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-text3"
             >
               {c}
             </th>
@@ -60,7 +41,7 @@ function TraceTable({ trace, step, onSeek }) {
       <tbody>
         {trace.length === 0 ? (
           <tr>
-            <td colSpan={8} className="empty-t">
+            <td colSpan={8} className="p-6 text-center text-sm text-text3">
               load a preset or add requests
             </td>
           </tr>
@@ -72,19 +53,11 @@ function TraceTable({ trace, step, onSeek }) {
               <tr
                 key={i}
                 onClick={() => onSeek(i)}
-                style={{
-                  cursor: "pointer",
-                  background: isActive
-                    ? "rgba(122,162,247,.1)"
-                    : "transparent",
-                }}
+                className={`cursor-pointer ${isActive ? "bg-blue/10" : "bg-transparent"}`}
               >
                 <td
+                  className="border-b border-border px-3 py-2 text-sm text-text2"
                   style={{
-                    padding: "4px 8px",
-                    borderBottom: "1px solid var(--border)",
-                    fontSize: "9px",
-                    color: "var(--text2)",
                     borderLeft: isActive
                       ? "2px solid var(--blue)"
                       : "2px solid transparent",
@@ -93,43 +66,18 @@ function TraceTable({ trace, step, onSeek }) {
                   {row.cycle}
                 </td>
 
-                <td
-                  style={{
-                    padding: "4px 8px",
-                    borderBottom: "1px solid var(--border)",
-                  }}
-                >
-                  <Badge variant={row.state}>
-                    {shortState(row.state)}
-                  </Badge>
+                <td className="border-b border-border px-3 py-2">
+                  <Badge variant={row.state}>{shortState(row.state)}</Badge>
                 </td>
 
-                <td
-                  style={{
-                    padding: "4px 8px",
-                    borderBottom: "1px solid var(--border)",
-                    color: "var(--text2)",
-                    fontSize: "8px",
-                    maxWidth: 160,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <td className="max-w-40 truncate border-b border-border px-3 py-2 text-xs text-text2">
                   {row.note}
                 </td>
 
                 {SIGNAL_KEYS.map((s) => (
                   <td
                     key={s}
-                    style={{
-                      padding: "4px 8px",
-                      borderBottom: "1px solid var(--border)",
-                      textAlign: "center",
-                      fontSize: "9px",
-                      color: row.sigs[s] ? "var(--blue)" : "var(--text3)",
-                      fontWeight: row.sigs[s] ? 700 : 400,
-                    }}
+                    className={`border-b border-border px-3 py-2 text-center text-sm ${row.sigs[s] ? "font-bold text-blue" : "font-normal text-text3"}`}
                   >
                     {row.sigs[s] ? "1" : "·"}
                   </td>

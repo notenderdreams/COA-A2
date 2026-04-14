@@ -30,28 +30,39 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
   };
 
   if (blocks.length === 0) {
-    return <div className="empty-t">no memory accessed yet</div>;
+    return (
+      <div className="p-5 text-center text-[9px] text-text3">
+        no memory accessed yet
+      </div>
+    );
   }
 
   return (
-    <div style={{ overflowX: "auto", flex: 1 }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontFamily: "var(--mono)",
-        }}
-      >
+    <div className="flex-1 overflow-x-auto">
+      <table className="w-full border-collapse font-mono text-[9px]">
         <thead>
           <tr>
-            <th style={{ ...TH, textAlign: "left", paddingLeft: "10px" }}>
+            <th
+              className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+              style={{ paddingLeft: "10px" }}
+            >
               Block Base Addr
             </th>
-            <th style={TH}>Last Op</th>
-            <th style={TH}>Word 3</th>
-            <th style={TH}>Word 2</th>
-            <th style={TH}>Word 1</th>
-            <th style={TH}>Word 0</th>
+            <th className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3">
+              Last Op
+            </th>
+            <th className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3">
+              Word 3
+            </th>
+            <th className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3">
+              Word 2
+            </th>
+            <th className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3">
+              Word 1
+            </th>
+            <th className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3">
+              Word 0
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -59,30 +70,20 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
             const block = mem[addr];
             const isWB = block.op === "WB";
             return (
-              <tr
-                key={addr}
-                style={{
-                  background: isWB
-                    ? "rgba(247,118,142,.05)"
-                    : "rgba(122,162,247,.05)",
-                }}
-              >
+              <tr key={addr} className={isWB ? "bg-red/5" : "bg-blue/5"}>
                 <td
+                  className="border-b border-border text-left text-[9.5px] font-semibold"
                   style={{
-                    ...TD,
-                    textAlign: "left",
                     color: isWB ? "var(--red)" : "var(--blue)",
-                    fontWeight: 600,
-                    fontSize: "9.5px",
                     borderLeft: `2px solid ${isWB ? "var(--red)" : "var(--blue)"}`,
                   }}
                 >
                   {h8(addr)}
                 </td>
-                <td style={{ ...TD }}>
+                <td className="border-b border-border px-2 py-1 text-center align-middle">
                   <Badge
                     variant={isWB ? "Write_Back" : "Compare_Tag"}
-                    style={{ fontSize: "7px" }}
+                    className="text-[7px]"
                   >
                     {isWB ? "WRITTEN" : "READ"}
                   </Badge>
@@ -92,22 +93,13 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
                   return (
                     <td
                       key={wi}
-                      style={{
-                        ...TD,
-                        color: isWB ? "var(--text)" : "var(--text2)",
-                      }}
+                      className="border-b border-border px-2 py-1 text-center align-middle"
+                      style={{ color: isWB ? "var(--text)" : "var(--text2)" }}
                     >
-                      <div
-                        style={{
-                          fontSize: "7.5px",
-                          color: "var(--text3)",
-                          fontFamily: "var(--mono)",
-                          marginBottom: "2px",
-                        }}
-                      >
+                      <div className="mb-0.5 font-mono text-[7.5px] text-text3">
                         {h8(wordAddr)}
                       </div>
-                      <div style={{ fontSize: "10px", fontWeight: 600 }}>
+                      <div className="text-[10px] font-semibold">
                         {h8(block.data[wi])}
                       </div>
                     </td>

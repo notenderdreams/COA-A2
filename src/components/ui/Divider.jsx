@@ -1,15 +1,12 @@
-import React from 'react';
+import React from "react";
+import { cn } from "../../lib/utils";
 
-export default function Divider({ className = '', style = {}, ...props }) {
+export default function Divider({ className = "", style = {}, ...props }) {
   return (
     <div
-      className={`divider ${className}`.trim()}
+      className={cn("mx-1 h-8 w-px bg-[var(--border2)]", className)}
       style={{
-        width: "1px",
-        height: "14px",
-        background: "var(--border2)",
-        margin: "0 4px",
-        ...style
+        ...style,
       }}
       {...props}
     />

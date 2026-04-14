@@ -12,15 +12,14 @@ import { CacheTable } from "./components/CacheTable";
 import { Timeline } from "./components/Timeline";
 import { MemoryTable } from "./components/MemoryTable";
 import Topbar from "./components/TopBar";
-import "./index.css";
 import Queue from "./components/Queue";
 import OpPanel from "./components/OpPanel";
 import ControlPanel from "./components/ControlPanel";
 import PresetTable from "./components/PresetTable";
 import TraceTable from "./components/TraceTable";
 import StatsPanel from "./components/StatsPanel";
-import Tab from "./components/ui/Tab";
 import SignalBadge from "./components/ui/SignalBadge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/Tabs";
 
 function useFill(state) {
   const [pct, setPct] = useState(0);
@@ -29,9 +28,13 @@ function useFill(state) {
     cancelAnimationFrame(raf.current);
     const dur = SDUR[state] || 700;
     const t0 = performance.now();
-    setPct(0);
+    let initialized = false;
     const tick = (now) => {
       const t = Math.min((now - t0) / dur, 1);
+      if (!initialized) {
+        setPct(0);
+        initialized = true;
+      }
       setPct(1 - Math.pow(1 - t, 3));
       if (t < 1) raf.current = requestAnimationFrame(tick);
     };
@@ -50,45 +53,43 @@ function App() {
   const [mem, setMem] = useState({});
   const [addrStr, setAddrStr] = useState("0x00000000");
   const [dataStr, setDataStr] = useState("0x000000AB");
-  const [activeEdge, setActiveEdge] = useState(null);
   const [cacheSnaps, setCacheSnaps] = useState([]);
   const [memSnaps, setMemSnaps] = useState([]);
   const [activeTab, setActiveTab] = useState("cache");
   const runRef = useRef();
   const [leftPct, setLeftPct] = useState(58);
+  const [isResizing, setIsResizing] = useState(false);
   const mainRef = useRef(null);
-  const divDragging = useRef(false);
+
+  useEffect(() => {
+    document.body.classList.toggle("resizing", isResizing);
+    return () => {
+      document.body.classList.remove("resizing");
+    };
+  }, [isResizing]);
 
   const startDivDrag = useCallback((e) => {
     e.preventDefault();
-    divDragging.current = true;
-    document.body.classList.add("resizing");
-    const el = document.querySelector(".divider");
-    if (el) el.classList.add("dragging");
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setIsResizing(true);
+  }, []);
 
-    const move = (ev) => {
-      if (!divDragging.current || !mainRef.current) return;
+  const handleDivDrag = useCallback(
+    (e) => {
+      if (!isResizing || !mainRef.current) return;
       const r = mainRef.current.getBoundingClientRect();
-      const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const cx = e.clientX;
       const pct = Math.min(80, Math.max(20, ((cx - r.left) / r.width) * 100));
       setLeftPct(pct);
-    };
+    },
+    [isResizing],
+  );
 
-    const up = () => {
-      divDragging.current = false;
-      document.body.classList.remove("resizing");
-      const el = document.querySelector(".divider");
-      if (el) el.classList.remove("dragging");
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", up);
-      window.removeEventListener("touchmove", move);
-      window.removeEventListener("touchend", up);
-    };
-
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", up);
-    window.addEventListener("touchmove", move, { passive: false });
-    window.addEventListener("touchend", up);
+  const stopDivDrag = useCallback((e) => {
+    if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    setIsResizing(false);
   }, []);
 
   const activeSet = useMemo(() => {
@@ -109,16 +110,13 @@ function App() {
         };
   const fillPct = useFill(curState);
 
-  useEffect(() => {
-    if (step < 0) {
-      setActiveEdge(null);
-      return;
-    }
+  const activeEdge = useMemo(() => {
+    if (step < 0) return null;
     const cur = trace[step]?.state || "Idle";
     const prev = step > 0 ? trace[step - 1]?.state || "Idle" : "Idle";
-    setActiveEdge(
-      cur === prev && cur !== "Idle" ? `${cur}__${cur}` : `${prev}__${cur}`,
-    );
+    return cur === prev && cur !== "Idle"
+      ? `${cur}__${cur}`
+      : `${prev}__${cur}`;
   }, [step, trace]);
 
   useEffect(() => {
@@ -203,7 +201,6 @@ function App() {
     setQueue([]);
     setCache(makeCache());
     setMem({});
-    setActiveEdge(null);
   }
 
   function seek(idx) {
@@ -255,41 +252,30 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className="flex h-full flex-col overflow-hidden">
       <Topbar running={running} total={total} />
-      <div ref={mainRef} className="main">
+      <div ref={mainRef} className="flex min-h-0 flex-1 overflow-hidden">
         <div
-          className="left"
+          className="flex min-w-55 flex-col overflow-hidden"
           style={{ width: leftPct + "%", flexShrink: 0, flexGrow: 0 }}
         >
-          <div className="fsm-area">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                maxWidth: "480px",
-                gap: 0,
-              }}
-            >
-              <div className="fsm-wrap">
+          <div className="flex min-h-0 flex-1 items-center justify-center px-4 pb-2 pt-4">
+            <div className="flex w-full max-w-120 flex-col gap-0">
+              <div className="w-full max-w-120">
                 <FSMDiagram
                   active={curState}
                   fillPct={fillPct}
                   activeEdge={activeEdge}
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "6px",
-                  flexWrap: "wrap",
-                  padding: "8px 2px 2px",
-                  justifyContent: "center",
-                }}
-              >
+              <div className="flex flex-wrap justify-center gap-1.5 px-0.5 pb-0.5 pt-2">
                 {Object.entries(curSigs).map(([k, v]) => (
-                  <SignalBadge key={k} signalName={k} value={v} variantClass={sigCls[k]} />
+                  <SignalBadge
+                    key={k}
+                    signalName={k}
+                    value={v}
+                    variantClass={sigCls[k]}
+                  />
                 ))}
               </div>
             </div>
@@ -314,58 +300,52 @@ function App() {
             setRunning={setRunning}
           />
         </div>
-        <div className="divider" onMouseDown={startDivDrag} />
-        <div className="right" style={{ flex: 1, minWidth: 0 }}>
+        <div
+          className={`relative w-1.25 shrink-0 cursor-col-resize border-x border-border bg-bg3 transition-colors hover:bg-blue ${isResizing ? "bg-blue" : ""}`}
+          onPointerDown={startDivDrag}
+          onPointerMove={handleDivDrag}
+          onPointerUp={stopDivDrag}
+          onPointerCancel={stopDivDrag}
+          role="separator"
+          aria-orientation="vertical"
+          aria-label="Resize panes"
+        >
+          <div className="absolute left-1/2 top-1/2 h-7 w-px -translate-x-1/2 -translate-y-1/2 bg-border2" />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden bg-bg2">
           <StatsPanel
             curState={curState}
             hits={hits}
             misses={misses}
             wbs={wbs}
           />
-          <div className="tabs">
-            <Tab
-              active={activeTab === "cache"}
-              onClick={() => setActiveTab("cache")}
-            >
-              Cache State
-            </Tab>
-            <Tab
-              active={activeTab === "trace"}
-              onClick={() => setActiveTab("trace")}
-            >
-              Trace
-            </Tab>
-            <Tab
-              active={activeTab === "memory"}
-              onClick={() => setActiveTab("memory")}
-            >
-              Memory
-            </Tab>
-            <Tab
-              active={activeTab === "presets"}
-              onClick={() => setActiveTab("presets")}
-            >
-              Presets
-            </Tab>
-          </div>
-          <div className="tab-content">
-            {activeTab === "cache" ? (
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList>
+              <TabsTrigger value="cache">Cache State</TabsTrigger>
+              <TabsTrigger value="trace">Trace</TabsTrigger>
+              <TabsTrigger value="memory">Memory</TabsTrigger>
+              <TabsTrigger value="presets">Presets</TabsTrigger>
+            </TabsList>
+            <TabsContent value="cache">
               <CacheTable
                 cache={dispCache}
                 activeSet={activeSet}
                 lastReq={cur ? cur.addr : null}
               />
-            ) : activeTab === "memory" ? (
+            </TabsContent>
+            <TabsContent value="memory">
               <MemoryTable mem={dispMem} />
-            ) : activeTab === "presets" ? (
+            </TabsContent>
+            <TabsContent value="presets">
               <PresetTable
                 onBeforeLoad={reset}
                 onApplyPreset={applyPresetResult}
               />
-            ) : (
+            </TabsContent>
+            <TabsContent value="trace">
               <TraceTable trace={trace} step={step} onSeek={seek} />
-            )}
-          </div>
+            </TabsContent>
+          </Tabs>
           <Timeline
             trace={trace}
             step={step}
