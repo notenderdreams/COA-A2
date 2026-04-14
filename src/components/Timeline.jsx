@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { TLC, SIGC } from "../fsm/constants";
 
 const TimelineRow = memo(function TimelineRow({
@@ -7,10 +7,8 @@ const TimelineRow = memo(function TimelineRow({
   cf,
   isState,
   total,
-  trackRef,
   phPct,
   onSeek,
-  startDrag,
 }) {
   return (
     <div className="mb-1 flex h-5 items-center">
@@ -19,7 +17,6 @@ const TimelineRow = memo(function TimelineRow({
       </div>
       <div
         className="relative h-full flex-1 cursor-pointer overflow-hidden rounded-sm border border-border bg-bg3"
-        ref={isState ? trackRef : null}
         onClick={(e) => {
           const r = e.currentTarget.getBoundingClientRect();
           onSeek(
@@ -59,10 +56,8 @@ const TimelineRow = memo(function TimelineRow({
         })}
         {isState && (
           <div
-            className="absolute top-0 z-10 flex h-full w-3.5 cursor-grab items-center justify-center"
+            className="pointer-events-none absolute top-0 z-10 flex h-full w-3.5 items-center justify-center"
             style={{ left: `calc(${phPct}% - 7px)` }}
-            onMouseDown={startDrag}
-            onTouchStart={startDrag}
           >
             <div className="h-full w-[1.5px] bg-white/85" />
           </div>
@@ -110,40 +105,6 @@ export const Timeline = memo(function Timeline({
 }) {
   const total = trace.length;
   const ph = usePlayPos(step, total, running, stateDur);
-  const trackRef = useRef(null);
-  const dragging = useRef(false);
-
-  const startDrag = useCallback(
-    (e) => {
-      e.preventDefault();
-      dragging.current = true;
-      const move = (ev) => {
-        if (!dragging.current || !trackRef.current) return;
-        const r = trackRef.current.getBoundingClientRect();
-        const cx = ev.touches ? ev.touches[0].clientX : ev.clientX;
-        onSeek(
-          Math.min(
-            total - 1,
-            Math.floor(
-              Math.max(0, Math.min(1, (cx - r.left) / r.width)) * total,
-            ),
-          ),
-        );
-      };
-      const up = () => {
-        dragging.current = false;
-        window.removeEventListener("mousemove", move);
-        window.removeEventListener("mouseup", up);
-        window.removeEventListener("touchmove", move);
-        window.removeEventListener("touchend", up);
-      };
-      window.addEventListener("mousemove", move);
-      window.addEventListener("mouseup", up);
-      window.addEventListener("touchmove", move, { passive: false });
-      window.addEventListener("touchend", up);
-    },
-    [total, onSeek],
-  );
 
   if (!total) {
     return (
@@ -210,10 +171,8 @@ export const Timeline = memo(function Timeline({
           cf={(v) => TLC[v]}
           isState={true}
           total={total}
-          trackRef={trackRef}
           phPct={phPct}
           onSeek={onSeek}
-          startDrag={startDrag}
         />
         <div className="my-1 ml-24 h-px bg-border" />
         {["stall_cpu", "mem_read", "mem_write", "cache_write", "mem_ready"]
@@ -228,10 +187,8 @@ export const Timeline = memo(function Timeline({
                 cf={(v) => (v ? SIGC[sig] : null)}
                 isState={false}
                 total={total}
-                trackRef={null}
                 phPct={phPct}
                 onSeek={onSeek}
-                startDrag={startDrag}
               />
             );
           })

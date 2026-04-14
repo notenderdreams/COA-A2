@@ -119,6 +119,17 @@ function App() {
       : `${prev}__${cur}`;
   }, [step, trace]);
 
+  const total = trace.length;
+
+  const seek = useCallback(
+    (idx) => {
+      setRunning(false);
+      setStep(idx);
+      setActiveTab("cache");
+    },
+    [setActiveTab],
+  );
+
   useEffect(() => {
     if (!running) return;
     clearTimeout(runRef.current);
@@ -134,6 +145,43 @@ function App() {
     }, dur + 100);
     return () => clearTimeout(runRef.current);
   }, [running, step, trace.length, curState]);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      const target = e.target;
+      const isTypingTarget =
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable);
+
+      if (isTypingTarget || e.altKey || e.ctrlKey || e.metaKey) return;
+
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (!running && step < 0 && total > 0) {
+          seek(0);
+        }
+        setRunning((r) => !r);
+        return;
+      }
+
+      if (e.code === "ArrowLeft") {
+        e.preventDefault();
+        seek(Math.max(0, step - 1));
+        return;
+      }
+
+      if (e.code === "ArrowRight") {
+        e.preventDefault();
+        seek(Math.min(total - 1, step + 1));
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [running, seek, setRunning, step, total]);
 
   function enqueue(type, addr, data) {
     const req = { type, addr, data };
@@ -203,16 +251,9 @@ function App() {
     setMem({});
   }
 
-  function seek(idx) {
-    setRunning(false);
-    setStep(idx);
-    setActiveTab("cache");
-  }
-
   const cur = step >= 0 && step < trace.length ? trace[step] : null;
   const dispCache = cur && cacheSnaps[step] ? cacheSnaps[step] : cache;
   const dispMem = cur && memSnaps[step] ? memSnaps[step] : mem;
-  const total = trace.length;
   const activeReqIdx = cur?.reqIdx ?? -1;
 
   const liveStats = useMemo(() => {
@@ -261,7 +302,7 @@ function App() {
         >
           <div className="flex min-h-0 flex-1 items-center justify-center px-4 pb-2 pt-4">
             <div className="flex w-full max-w-120 flex-col gap-0">
-              <div className="w-full max-w-120">
+              <div className="w-full max-w-120 scale-[1.25] origin-center">
                 <FSMDiagram
                   active={curState}
                   fillPct={fillPct}
