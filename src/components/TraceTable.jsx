@@ -56,12 +56,7 @@ function TraceTable({ trace, step, onSeek }) {
                 className={`cursor-pointer ${isActive ? "bg-blue/10" : "bg-transparent"}`}
               >
                 <td
-                  className="border-b border-border px-3 py-2 text-sm text-text2"
-                  style={{
-                    borderLeft: isActive
-                      ? "2px solid var(--blue)"
-                      : "2px solid transparent",
-                  }}
+                  className={`border-b border-l-2 border-border px-3 py-2 text-sm text-text2 ${isActive ? "border-l-blue" : "border-l-transparent"}`}
                 >
                   {row.cycle}
                 </td>

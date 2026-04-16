@@ -26,49 +26,15 @@ export const CacheTable = memo(function CacheTable({
   const activeOff = lastReq != null ? addr2offset(lastReq) : -1;
   const activeWord = activeOff >= 0 ? Math.floor(activeOff / 4) : -1;
 
-  const TH = {
-    padding: "4px 0 6px",
-    borderBottom: "1px solid var(--border)",
-    boxShadow: "inset 0 -1px 0 var(--border)",
-    fontSize: "8.5px",
-    color: "var(--text3)",
-    fontWeight: 600,
-    letterSpacing: ".05em",
-    textTransform: "uppercase",
-    textAlign: "center",
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
-    background: "var(--bg2)",
-  };
-  const TD = {
-    padding: "0",
-    borderBottom: "1px solid var(--border2)",
-    verticalAlign: "top",
-  };
-
   function WHead(wi) {
     const act = wi === activeWord;
     return (
       <th
         key={wi}
-        style={{
-          ...TH,
-          minWidth: "64px",
-          background: act ? "rgba(224,175,104,.1)" : "var(--bg2)",
-          color: act ? "var(--amber)" : "var(--text3)",
-          borderBottom: "1px solid var(--border)",
-        }}
+        className={`sticky top-0 z-10 min-w-16 border-b border-border px-0 pb-[6px] pt-1 text-center text-[8.5px] font-semibold uppercase tracking-[0.05em] shadow-[inset_0_-1px_0_#111111] ${act ? "bg-amber/10 text-amber" : "bg-bg2 text-text3"}`}
       >
-        <div style={{ fontSize: "9px" }}>W{wi}</div>
-        <div
-          style={{
-            fontWeight: 400,
-            fontSize: "7.5px",
-            opacity: 0.7,
-            marginTop: "2px",
-          }}
-        >
+        <div className="text-[9px]">W{wi}</div>
+        <div className="mt-[2px] text-[7.5px] font-normal opacity-70">
           [{wi * 4 + 3}:{wi * 4}]
         </div>
       </th>
@@ -80,30 +46,16 @@ export const CacheTable = memo(function CacheTable({
     return (
       <td
         key={wi}
-        style={{
-          ...TD,
-          background: act ? "rgba(224,175,104,.14)" : "transparent",
-          textAlign: "center",
-          padding: "5px 4px 4px",
-        }}
+        className={`align-top border-b border-border2 px-1 pb-1 pt-[5px] text-center ${act ? "bg-amber/15" : "bg-transparent"}`}
       >
         {val != null ? (
           <span
-            style={{
-              fontSize: "9.5px",
-              fontFamily: "var(--mono)",
-              fontWeight: act ? 700 : 400,
-              color: act
-                ? "var(--amber)"
-                : isDirty
-                  ? "var(--amber)"
-                  : "var(--text2)",
-            }}
+            className={`font-mono text-[9.5px] ${act ? "font-semibold" : "font-normal"} ${act || isDirty ? "text-amber" : "text-text2"}`}
           >
             {hVal(val)}
           </span>
         ) : (
-          <span style={{ color: "var(--text3)", fontSize: "9px" }}>—</span>
+          <span className="text-[9px] text-text3">—</span>
         )}
       </td>
     );
@@ -116,26 +68,22 @@ export const CacheTable = memo(function CacheTable({
           <thead>
             <tr>
               <th
-                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
-                style={{ minWidth: "70px", paddingLeft: "10px" }}
+                className="sticky top-0 z-10 min-w-[70px] border-b border-border bg-bg2 px-2 py-1 pl-2.5 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
               >
                 Set
               </th>
               <th
-                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
-                style={{ width: "28px" }}
+                className="sticky top-0 z-10 w-7 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
               >
                 V
               </th>
               <th
-                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
-                style={{ width: "28px" }}
+                className="sticky top-0 z-10 w-7 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
               >
                 D
               </th>
               <th
-                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
-                style={{ minWidth: "70px", paddingLeft: "6px" }}
+                className="sticky top-0 z-10 min-w-[70px] border-b border-border bg-bg2 px-2 py-1 pl-1.5 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
               >
                 Tag
               </th>
@@ -163,12 +111,7 @@ export const CacheTable = memo(function CacheTable({
                   }
                 >
                   <td
-                    className="border-b border-border2 px-2 py-1.5 text-left"
-                    style={{
-                      borderLeft: isActive
-                        ? "2px solid var(--blue)"
-                        : "2px solid transparent",
-                    }}
+                    className={`border-b border-border2 border-l-2 px-2 py-1.5 text-left ${isActive ? "border-l-blue" : "border-l-transparent"}`}
                   >
                     <span
                       className={`font-mono text-[9.5px] ${isActive ? "font-semibold text-text" : "font-normal text-text2"}`}
@@ -197,15 +140,7 @@ export const CacheTable = memo(function CacheTable({
                   <td className="border-b border-border2 px-1.5 py-1.5 align-middle">
                     <div className="flex h-full items-center">
                       <span
-                        className="font-mono text-[9.5px]"
-                        style={{
-                          fontWeight: isActive ? 700 : 400,
-                          color: isActive
-                            ? "var(--blue)"
-                            : isDirty
-                              ? "var(--amber)"
-                              : "var(--text2)",
-                        }}
+                        className={`font-mono text-[9.5px] ${isActive ? "font-semibold text-blue" : isDirty ? "font-normal text-amber" : "font-normal text-text2"}`}
                       >
                         {l.valid ? h5(l.tag) : "—"}
                       </span>

@@ -17,7 +17,7 @@ function TabsList({ className, children }) {
   return (
     <div
       className={cn(
-        "flex shrink-0 border-b border-[var(--border)] bg-[var(--bg2)]",
+        "flex shrink-0 border-b border-border bg-bg2",
         className,
       )}
     >
@@ -34,8 +34,8 @@ function TabsTrigger({ value, className, children, ...props }) {
     <button
       type="button"
       className={cn(
-        "mb-[-1px] border-b-2 border-transparent px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[var(--text3)] transition-[color,border-color] hover:text-[var(--text2)]",
-        active && "border-b-[var(--blue)] text-[var(--text)]",
+        "mb-[-1px] border-b-2 border-transparent px-4 py-2 text-xs font-semibold uppercase tracking-wide text-text3 transition-[color,border-color] hover:text-text2",
+        active && "border-b-blue text-text",
         className,
       )}
       data-state={active ? "active" : "inactive"}

@@ -7,14 +7,14 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-[var(--border2)] bg-[var(--bg3)] text-[var(--text2)]",
-        Idle: "border-[rgba(115,218,202,0.2)] bg-[rgba(115,218,202,0.1)] text-[var(--green)]",
+        default: "border-border2 bg-bg3 text-text2",
+        Idle: "border-green/20 bg-green/10 text-green",
         Compare_Tag:
-          "border-[rgba(122,162,247,0.2)] bg-[rgba(122,162,247,0.1)] text-[var(--blue)]",
+          "border-blue/20 bg-blue/10 text-blue",
         Write_Back:
-          "border-[rgba(247,118,142,0.2)] bg-[rgba(247,118,142,0.1)] text-[var(--red)]",
+          "border-red/20 bg-red/10 text-red",
         Allocate:
-          "border-[rgba(224,175,104,0.2)] bg-[rgba(224,175,104,0.1)] text-[var(--amber)]",
+          "border-amber/20 bg-amber/10 text-amber",
       },
     },
     defaultVariants: {

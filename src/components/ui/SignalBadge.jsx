@@ -9,16 +9,16 @@ export default function SignalBadge({
   ...props
 }) {
   const variantMap = {
-    "": "border-[var(--blue)] bg-[rgba(122,162,247,0.1)] text-[var(--blue)]",
-    g: "border-[var(--green)] bg-[rgba(115,218,202,0.1)] text-[var(--green)]",
-    r: "border-[var(--red)] bg-[rgba(247,118,142,0.1)] text-[var(--red)]",
-    a: "border-[var(--amber)] bg-[rgba(224,175,104,0.1)] text-[var(--amber)]",
-    p: "border-[var(--purple)] bg-[rgba(187,154,247,0.1)] text-[var(--purple)]",
+    "": "border-blue bg-blue/10 text-blue",
+    g: "border-green bg-green/10 text-green",
+    r: "border-red bg-red/10 text-red",
+    a: "border-amber bg-amber/10 text-amber",
+    p: "border-purple bg-purple/10 text-purple",
   };
   return (
     <div
       className={cn(
-        "flex w-full min-w-0 items-center justify-center whitespace-nowrap rounded-sm border border-(--border2) bg-(--bg3) px-1 py-0.5 text-[10px] font-semibold leading-none text-(--text3) transition-all",
+        "flex w-full min-w-0 items-center justify-center whitespace-nowrap rounded-sm border border-border2 bg-bg3 px-1 py-0.5 text-[10px] font-semibold leading-none text-text3 transition-all",
         value && variantMap[variantClass ?? ""],
         className,
       )}

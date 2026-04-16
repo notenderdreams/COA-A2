@@ -16,46 +16,18 @@ function PresetTable({ onApplyPreset, onBeforeLoad }) {
   }
 
   return (
-    <div
-      style={{
-        padding: "10px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-      }}
-    >
+    <div className="flex flex-col gap-2 p-2.5">
       {Object.entries(PRESETS).map(([name, reqs]) => (
         <div
           key={name}
-          style={{
-            background: "var(--bg3)",
-            border: "1px solid var(--border)",
-            borderRadius: "6px",
-            padding: "10px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          className="flex items-center justify-between rounded-md border border-border bg-bg3 p-2.5"
         >
           <div>
-            <div
-              style={{
-                fontSize: "11px",
-                fontWeight: 600,
-                color: "var(--text)",
-                marginBottom: "4px",
-              }}
-            >
+            <div className="mb-1 text-[11px] font-semibold text-text">
               {name}
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                gap: "4px",
-                flexWrap: "wrap",
-              }}
-            >
+            <div className="flex flex-wrap gap-1">
               {reqs.slice(0, 10).map((r, i) => (
                 <Tag key={i} type={r.t}>
                   {r.t}:{fmtAddr(r.a)}
@@ -63,7 +35,7 @@ function PresetTable({ onApplyPreset, onBeforeLoad }) {
               ))}
 
               {reqs.length > 10 && (
-                <span style={{ fontSize: "8.5px", color: "var(--text3)" }}>
+                <span className="text-[8.5px] text-text3">
                   +{reqs.length - 10} more
                 </span>
               )}

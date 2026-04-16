@@ -41,6 +41,12 @@ function ControlPanel({
   };
 
   const iconProps = { size: 16, className: "icon" };
+  const stateColorClass = {
+    Idle: "text-green",
+    Compare_Tag: "text-blue",
+    Write_Back: "text-red",
+    Allocate: "text-amber",
+  };
 
   return (
     <div className="flex shrink-0 items-center gap-2 border-t border-border bg-bg2 px-4 py-2">
@@ -67,7 +73,7 @@ function ControlPanel({
         size="icon"
         onClick={handleToggleRun}
         disabled={!total}
-        className={running ? "border-(--border2) bg-(--bg4) text-(--text)" : ""}
+        className={running ? "border-border2 bg-bg4 text-text" : ""}
       >
         {running ? <Pause {...iconProps} /> : <Play {...iconProps} />}
       </Button>
@@ -97,8 +103,7 @@ function ControlPanel({
 
       {cur && (
         <div
-          className="ml-1 flex-1 min-w-0 text-right text-xs font-mono leading-tight"
-          style={{ color: SC[curState]?.col, whiteSpace: "pre-wrap" }}
+          className={`ml-1 min-w-0 flex-1 whitespace-pre-wrap text-right font-mono text-xs leading-tight ${stateColorClass[curState] || "text-text2"}`}
         >
           {cur.note}
         </div>

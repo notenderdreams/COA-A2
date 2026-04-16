@@ -3,22 +3,18 @@ import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1 whitespace-nowrap rounded-md border font-medium transition-[color,background-color,border-color,opacity,transform] outline-none select-none disabled:pointer-events-none disabled:opacity-25 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 active:scale-[0.97]",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border text-xs font-semibold font-mono transition-[color,background-color,border-color,opacity,transform,box-shadow] outline-none select-none focus-visible:ring-1 focus-visible:ring-blue/40 disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 active:scale-[0.98]",
   {
     variants: {
       variant: {
-        default:
-          "border-[var(--border2)] bg-[var(--bg3)] text-[var(--text2)] hover:bg-[var(--bg4)] hover:text-[var(--text)]",
-        outline:
-          "border-[var(--border2)] bg-[var(--bg3)] text-[var(--text2)] hover:bg-[var(--bg4)] hover:text-[var(--text)]",
-        primary:
-          "border-[var(--blue)] bg-[var(--blue)] text-[#1a1a1a] hover:opacity-85",
-        danger:
-          "border-[rgba(247,118,142,0.3)] bg-[var(--bg3)] text-[var(--red)] hover:bg-[var(--bg4)]",
-        run: "border-[var(--amber)] bg-[rgba(224,175,104,0.12)] text-[var(--amber)] hover:bg-[rgba(224,175,104,0.18)]",
+        default: "border-border2 bg-bg3 text-text hover:bg-bg4",
+        outline: "border-border2 bg-transparent text-text2 hover:bg-bg3 hover:text-text",
+        primary: "border-blue bg-blue text-bg hover:bg-blue/90",
+        danger: "border-red/40 bg-red/12 text-red hover:bg-red/18",
+        run: "border-amber/50 bg-amber/12 text-amber hover:bg-amber/18",
       },
       size: {
-        default: "min-h-7 px-3 py-1 text-xs",
+        default: "h-7 px-3",
         icon: "size-7 p-0",
       },
     },
@@ -44,11 +40,7 @@ const Button = React.forwardRef(function Button(
     <button
       ref={ref}
       type={type}
-      className={cn(
-        buttonVariants({ variant, size }),
-        "font-[var(--mono)]",
-        className,
-      )}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
       {children}

@@ -9,26 +9,6 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
   const h8 = (v) =>
     "0x" + (v >>> 0).toString(16).toUpperCase().padStart(8, "0");
 
-  const TH = {
-    padding: "4px 8px",
-    borderBottom: "1px solid var(--border)",
-    fontSize: "7.5px",
-    color: "var(--text3)",
-    fontWeight: 600,
-    letterSpacing: ".05em",
-    textTransform: "uppercase",
-    textAlign: "center",
-    background: "var(--bg2)",
-    position: "sticky",
-    top: 0,
-  };
-  const TD = {
-    padding: "5px 8px",
-    borderBottom: "1px solid var(--border)",
-    textAlign: "center",
-    verticalAlign: "middle",
-  };
-
   if (blocks.length === 0) {
     return (
       <div className="p-5 text-center text-[9px] text-text3">
@@ -43,8 +23,7 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
         <thead>
           <tr>
             <th
-              className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
-              style={{ paddingLeft: "10px" }}
+              className="sticky top-0 border-b border-border bg-bg2 px-2 py-1 pl-2.5 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
             >
               Block Base Addr
             </th>
@@ -72,11 +51,7 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
             return (
               <tr key={addr} className={isWB ? "bg-red/5" : "bg-blue/5"}>
                 <td
-                  className="border-b border-border text-left text-[9.5px] font-semibold"
-                  style={{
-                    color: isWB ? "var(--red)" : "var(--blue)",
-                    borderLeft: `2px solid ${isWB ? "var(--red)" : "var(--blue)"}`,
-                  }}
+                  className={`border-b border-l-2 border-border text-left text-[9.5px] font-semibold ${isWB ? "border-l-red text-red" : "border-l-blue text-blue"}`}
                 >
                   {h8(addr)}
                 </td>
@@ -93,8 +68,7 @@ export const MemoryTable = memo(function MemoryTable({ mem }) {
                   return (
                     <td
                       key={wi}
-                      className="border-b border-border px-2 py-1 text-center align-middle"
-                      style={{ color: isWB ? "var(--text)" : "var(--text2)" }}
+                      className={`border-b border-border px-2 py-1 text-center align-middle ${isWB ? "text-text" : "text-text2"}`}
                     >
                       <div className="mb-0.5 font-mono text-[7.5px] text-text3">
                         {h8(wordAddr)}
