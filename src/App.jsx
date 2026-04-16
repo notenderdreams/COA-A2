@@ -20,6 +20,7 @@ import TraceTable from "./components/TraceTable";
 import StatsPanel from "./components/StatsPanel";
 import SignalBadge from "./components/ui/SignalBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/Tabs";
+import WelcomeModal from "./components/ui/WelcomeModal";
 
 function useFill(state) {
   const [pct, setPct] = useState(0);
@@ -295,7 +296,8 @@ function App() {
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      <Topbar running={running} total={total} />
+      <WelcomeModal />
+      {/* <Topbar running={running} total={total} /> */}
       <div ref={mainRef} className="flex min-h-0 flex-1 overflow-hidden">
         <div
           className="flex min-w-55 flex-col overflow-hidden"
