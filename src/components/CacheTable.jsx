@@ -29,12 +29,17 @@ export const CacheTable = memo(function CacheTable({
   const TH = {
     padding: "4px 0 6px",
     borderBottom: "1px solid var(--border)",
+    boxShadow: "inset 0 -1px 0 var(--border)",
     fontSize: "8.5px",
     color: "var(--text3)",
     fontWeight: 600,
     letterSpacing: ".05em",
     textTransform: "uppercase",
     textAlign: "center",
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
+    background: "var(--bg2)",
   };
   const TD = {
     padding: "0",
@@ -50,8 +55,9 @@ export const CacheTable = memo(function CacheTable({
         style={{
           ...TH,
           minWidth: "64px",
-          background: act ? "rgba(224,175,104,.1)" : "transparent",
+          background: act ? "rgba(224,175,104,.1)" : "var(--bg2)",
           color: act ? "var(--amber)" : "var(--text3)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <div style={{ fontSize: "9px" }}>W{wi}</div>
@@ -105,30 +111,30 @@ export const CacheTable = memo(function CacheTable({
 
   return (
     <div className="shrink-0 border-b border-border">
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+      <div className="relative">
+        <table className="w-full border-separate border-spacing-0">
           <thead>
             <tr>
               <th
-                className="sticky top-0 bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
                 style={{ minWidth: "70px", paddingLeft: "10px" }}
               >
                 Set
               </th>
               <th
-                className="sticky top-0 bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
                 style={{ width: "28px" }}
               >
                 V
               </th>
               <th
-                className="sticky top-0 bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-center text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
                 style={{ width: "28px" }}
               >
                 D
               </th>
               <th
-                className="sticky top-0 bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
+                className="sticky top-0 z-10 border-b border-border bg-bg2 px-2 py-1 text-left text-[7.5px] font-semibold uppercase tracking-[0.05em] text-text3"
                 style={{ minWidth: "70px", paddingLeft: "6px" }}
               >
                 Tag
