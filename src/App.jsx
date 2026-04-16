@@ -55,7 +55,7 @@ function App() {
   const [dataStr, setDataStr] = useState("0x000000AB");
   const [cacheSnaps, setCacheSnaps] = useState([]);
   const [memSnaps, setMemSnaps] = useState([]);
-  const [activeTab, setActiveTab] = useState("cache");
+  const [activeTab, setActiveTab] = useState("presets");
   const runRef = useRef();
   const [leftPct, setLeftPct] = useState(58);
   const [isResizing, setIsResizing] = useState(false);
@@ -244,6 +244,7 @@ function App() {
     setRunning(false);
     setTrace([]);
     setStep(-1);
+    setActiveTab("presets");
     setCacheSnaps([]);
     setMemSnaps([]);
     setQueue([]);
@@ -301,21 +302,22 @@ function App() {
           style={{ width: leftPct + "%", flexShrink: 0, flexGrow: 0 }}
         >
           <div className="flex min-h-0 flex-1 items-center justify-center px-4 pb-2 pt-4">
-            <div className="flex w-full max-w-120 flex-col gap-0">
-              <div className="w-full max-w-120 scale-[1.25] origin-center">
+            <div className="flex w-full flex-col gap-0">
+              <div className="mx-auto w-full max-w-120 scale-[1.25] origin-center">
                 <FSMDiagram
                   active={curState}
                   fillPct={fillPct}
                   activeEdge={activeEdge}
                 />
               </div>
-              <div className="grid w-full grid-cols-5 gap-1 px-0.5 pb-0.5 pt-2">
+              <div className="flex w-full flex-wrap justify-center gap-1.5 px-0.5 pb-0.5 pt-2">
                 {Object.entries(curSigs).map(([k, v]) => (
                   <SignalBadge
                     key={k}
                     signalName={k}
                     value={v}
                     variantClass={sigCls[k]}
+                    className="w-auto"
                   />
                 ))}
               </div>
@@ -362,11 +364,17 @@ function App() {
           />
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
+              <TabsTrigger value="presets">Presets</TabsTrigger>
               <TabsTrigger value="cache">Cache State</TabsTrigger>
               <TabsTrigger value="trace">Trace</TabsTrigger>
               <TabsTrigger value="memory">Memory</TabsTrigger>
-              <TabsTrigger value="presets">Presets</TabsTrigger>
             </TabsList>
+            <TabsContent value="presets">
+              <PresetTable
+                onBeforeLoad={reset}
+                onApplyPreset={applyPresetResult}
+              />
+            </TabsContent>
             <TabsContent value="cache">
               <CacheTable
                 cache={dispCache}
@@ -376,12 +384,6 @@ function App() {
             </TabsContent>
             <TabsContent value="memory">
               <MemoryTable mem={dispMem} />
-            </TabsContent>
-            <TabsContent value="presets">
-              <PresetTable
-                onBeforeLoad={reset}
-                onApplyPreset={applyPresetResult}
-              />
             </TabsContent>
             <TabsContent value="trace">
               <TraceTable trace={trace} step={step} onSeek={seek} />

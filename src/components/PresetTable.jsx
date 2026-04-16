@@ -23,7 +23,7 @@ function PresetTable({ onApplyPreset, onBeforeLoad }) {
           className="flex items-center justify-between rounded-md border border-border bg-bg3 p-2.5"
         >
           <div>
-            <div className="mb-1 text-[11px] font-semibold text-text">
+            <div className="mb-1 text-xs font-semibold text-text">
               {name}
             </div>
 
@@ -35,7 +35,7 @@ function PresetTable({ onApplyPreset, onBeforeLoad }) {
               ))}
 
               {reqs.length > 10 && (
-                <span className="text-[8.5px] text-text3">
+                <span className="text-xs text-text3">
                   +{reqs.length - 10} more
                 </span>
               )}

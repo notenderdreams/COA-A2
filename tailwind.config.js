@@ -23,6 +23,7 @@ export default {
       },
       fontFamily: {
         mono: ["JetBrains Mono", "monospace"],
+        title: ["Viaoda Libre", "serif"],
       },
     },
   },

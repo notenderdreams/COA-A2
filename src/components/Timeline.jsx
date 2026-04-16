@@ -110,7 +110,7 @@ export const Timeline = memo(function Timeline({
     return (
       <div className="shrink-0 border-t border-border bg-bg2 px-3 py-2">
         <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-text2">
+          <span className="text-xs font-semibold uppercase tracking-[0.08em] text-text2">
             Timeline
           </span>
           <span className="text-xs text-text3">no data yet</span>
@@ -146,10 +146,10 @@ export const Timeline = memo(function Timeline({
   return (
     <div className="shrink-0 border-t border-border bg-bg2 px-3 py-2.5">
       <div className="mb-1.5 flex items-center justify-between">
-        <span className="text-[8px] font-semibold uppercase tracking-[0.08em] text-text2">
+        <span className="text-xs font-semibold uppercase tracking-[0.08em] text-text2">
           Timeline
         </span>
-        <span className="text-[7.5px] text-text3">drag or click to seek</span>
+        <span className="text-xs text-text3">drag or click to seek</span>
       </div>
       <div>
         <div className="mb-1 flex h-2.5">
@@ -157,7 +157,7 @@ export const Timeline = memo(function Timeline({
             {ticks.map((t) => (
               <div
                 key={t}
-                className="absolute translate-x-[-50%] text-[6.5px] text-text3"
+                className="absolute translate-x-[-50%] text-xs text-text3"
                 style={{ left: `${(t / total) * 100}%` }}
               >
                 {t}

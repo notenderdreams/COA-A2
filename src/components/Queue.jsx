@@ -5,7 +5,7 @@ function Queue({ queue, activeReqIdx }) {
   return (
     <div className="flex max-h-[52px] shrink-0 flex-wrap content-start gap-0.5 overflow-y-auto border-t border-border bg-bg2 px-3 py-1.5">
       {queue.length === 0 ? (
-        <span className="text-[8.5px] text-text3">queue empty</span>
+        <span className="text-xs text-text3">queue empty</span>
       ) : (
         queue.map((q, i) => (
           <Tag
