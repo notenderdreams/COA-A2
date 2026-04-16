@@ -1,6 +1,13 @@
 import React from "react";
 import Tag from "./ui/Tag";
 
+function formatHex(value, width) {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return "?".repeat(width);
+  }
+  return value.toString(16).toUpperCase().padStart(width, "0");
+}
+
 function Queue({ queue, activeReqIdx }) {
   return (
     <div className="flex max-h-[52px] shrink-0 flex-wrap content-start gap-0.5 overflow-y-auto border-t border-border bg-bg2 px-3 py-1.5">
@@ -14,10 +21,10 @@ function Queue({ queue, activeReqIdx }) {
             active={i === activeReqIdx}
             done={i < activeReqIdx}
           >
-            {q.type}:
-            {q.addr.toString(16).toUpperCase().padStart(8, "0").slice(-5)}
+            {q.type ?? "?"}:
+            {formatHex(q?.addr, 8).slice(-5)}
             {q.type === "W"
-              ? "=" + q.data.toString(16).toUpperCase().padStart(2, "0")
+              ? "=" + formatHex(q?.data, 2)
               : ""}
           </Tag>
         ))

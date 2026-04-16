@@ -31,10 +31,12 @@ export const CacheTable = memo(function CacheTable({
     return (
       <th
         key={wi}
-        className={`sticky top-0 z-10 min-w-16 border-b border-border px-0 pb-[6px] pt-1 text-center text-xs font-semibold uppercase tracking-[0.05em] shadow-[inset_0_-1px_0_#111111] ${act ? "bg-amber/10 text-amber" : "bg-bg2 text-text3"}`}
+        className={`sticky top-0 z-10 min-w-[70px] border-b border-white/5 px-4 py-3 text-center transition-colors duration-300 ${
+          act ? "bg-amber/10 text-amber shadow-[inset_0_-2px_0_var(--amber)]" : "bg-bg/80 text-text3 backdrop-blur-md"
+        }`}
       >
-        <div className="text-xs">W{wi}</div>
-        <div className="mt-[2px] text-xs font-normal opacity-70">
+        <div className="text-[10px] font-bold tracking-widest uppercase">Word {wi}</div>
+        <div className="mt-0.5 text-[9px] font-medium opacity-40">
           [{wi * 4 + 3}:{wi * 4}]
         </div>
       </th>
@@ -46,46 +48,42 @@ export const CacheTable = memo(function CacheTable({
     return (
       <td
         key={wi}
-        className={`align-top border-b border-border2 px-1 pb-1 pt-[5px] text-center ${act ? "bg-amber/15" : "bg-transparent"}`}
+        className={`align-top border-b border-white/5 px-4 py-3.5 text-center transition-all duration-300 ${
+          act ? "bg-amber/5 animate-pulse" : "bg-transparent"
+        }`}
       >
         {val != null ? (
           <span
-            className={`font-mono text-xs ${act ? "font-semibold" : "font-normal"} ${act || isDirty ? "text-amber" : "text-text2"}`}
+            className={`font-mono text-xs tracking-tight ${
+              act ? "font-bold text-amber" : isDirty ? "text-amber/90" : "text-text2/80"
+            }`}
           >
             {hVal(val)}
           </span>
         ) : (
-          <span className="text-xs text-text3">—</span>
+          <span className="text-xs text-text3/30">—</span>
         )}
       </td>
     );
   }
 
   return (
-    <div className="shrink-0 border-b border-border">
-      <div className="relative">
+    <div className="flex flex-col h-full bg-bg/20 backdrop-blur-sm">
+      <div className="relative flex-1 overflow-auto">
         <table className="w-full border-separate border-spacing-0">
           <thead>
             <tr>
-              <th
-                className="sticky top-0 z-10 min-w-[70px] border-b border-border bg-bg2 px-2 py-1 pl-2.5 text-left text-xs font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
-              >
-                Set
+              <th className="sticky top-0 z-20 min-w-[70px] border-b border-white/5 bg-bg/80 px-5 py-4 text-left backdrop-blur-md">
+                <span className="text-[10px] font-bold tracking-widest text-text3 uppercase">Set</span>
               </th>
-              <th
-                className="sticky top-0 z-10 w-7 border-b border-border bg-bg2 px-2 py-1 text-center text-xs font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
-              >
-                V
+              <th className="sticky top-0 z-20 w-10 border-b border-white/5 bg-bg/80 px-2 py-4 text-center backdrop-blur-md">
+                <span className="text-[10px] font-bold tracking-widest text-text3 uppercase">V</span>
               </th>
-              <th
-                className="sticky top-0 z-10 w-7 border-b border-border bg-bg2 px-2 py-1 text-center text-xs font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
-              >
-                D
+              <th className="sticky top-0 z-20 w-10 border-b border-white/5 bg-bg/80 px-2 py-4 text-center backdrop-blur-md">
+                <span className="text-[10px] font-bold tracking-widest text-text3 uppercase">D</span>
               </th>
-              <th
-                className="sticky top-0 z-10 min-w-[70px] border-b border-border bg-bg2 px-2 py-1 pl-1.5 text-left text-xs font-semibold uppercase tracking-[0.05em] text-text3 shadow-[inset_0_-1px_0_#111111]"
-              >
-                Tag
+              <th className="sticky top-0 z-20 min-w-[80px] border-b border-white/5 bg-bg/80 px-4 py-4 text-left backdrop-blur-md">
+                <span className="text-[10px] font-bold tracking-widest text-text3 uppercase">Tag</span>
               </th>
               {WHead(3)}
               {WHead(2)}
@@ -102,49 +100,36 @@ export const CacheTable = memo(function CacheTable({
                 <tr
                   key={i}
                   ref={(el) => (rowRefs.current[i] = el)}
-                  className={
+                  className={`group transition-colors duration-200 ${
                     isActive
                       ? "bg-blue/10"
                       : isDirty
-                        ? "bg-amber/5"
-                        : "bg-transparent"
-                  }
+                        ? "bg-amber/[0.03] hover:bg-amber/[0.05]"
+                        : "hover:bg-white/[0.02]"
+                  }`}
                 >
-                  <td
-                    className={`border-b border-border2 border-l-2 px-2 py-1.5 text-left ${isActive ? "border-l-blue" : "border-l-transparent"}`}
-                  >
-                    <span
-                      className={`font-mono text-xs ${isActive ? "font-semibold text-text" : "font-normal text-text2"}`}
-                    >
+                  <td className={`relative border-b border-white/5 px-5 py-3.5 text-left`}>
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-blue shadow-[0_0_12px_rgba(122,162,247,1)]" />
+                    )}
+                    <span className={`font-mono text-xs ${isActive ? "font-bold text-blue" : "text-text2/60"}`}>
                       {i}
                     </span>
                   </td>
-                  <td className="border-b border-border2 px-0 py-1.5 text-center">
-                    <div className="flex h-5 items-center justify-center">
-                      <span
-                        className={`inline-flex h-4 w-4 items-center justify-center rounded-xs text-xs font-semibold leading-none ${l.valid ? "bg-green/15 text-green" : "bg-bg3 text-text3"}`}
-                      >
-                        {l.valid ? "1" : "0"}
-                      </span>
-                    </div>
+                  <td className="border-b border-white/5 px-0 py-3.5 text-center">
+                    <div className={`mx-auto h-2 w-2 rounded-full ring-4 transition-all ${
+                      l.valid ? "bg-green ring-green/10" : "bg-bg3 ring-transparent"
+                    }`} />
                   </td>
-                  <td className="border-b border-border2 px-0 py-1.5 text-center">
-                    <div className="flex h-5 items-center justify-center">
-                      <span
-                        className={`inline-flex h-4 w-4 items-center justify-center rounded-xs text-xs font-semibold leading-none ${isDirty ? "bg-amber/15 text-amber" : "bg-bg3 text-text3"}`}
-                      >
-                        {isDirty ? "1" : "0"}
-                      </span>
-                    </div>
+                  <td className="border-b border-white/5 px-0 py-3.5 text-center">
+                    <div className={`mx-auto h-2 w-2 rounded-full ring-4 transition-all ${
+                      isDirty ? "bg-amber ring-amber/10" : "bg-bg3 ring-transparent"
+                    }`} />
                   </td>
-                  <td className="border-b border-border2 px-1.5 py-1.5 align-middle">
-                    <div className="flex h-full items-center">
-                      <span
-                        className={`font-mono text-xs ${isActive ? "font-semibold text-blue" : isDirty ? "font-normal text-amber" : "font-normal text-text2"}`}
-                      >
-                        {l.valid ? h5(l.tag) : "—"}
-                      </span>
-                    </div>
+                  <td className="border-b border-white/5 px-4 py-3.5">
+                    <span className={`font-mono text-xs ${isActive ? "font-bold text-blue" : isDirty ? "text-amber/90" : "text-text2/60"}`}>
+                      {l.valid ? h5(l.tag) : "—"}
+                    </span>
                   </td>
                   {[3, 2, 1, 0].map((wi) =>
                     WCell(
@@ -160,9 +145,9 @@ export const CacheTable = memo(function CacheTable({
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between border-t border-border px-2.5 py-0.75 text-xs text-text3">
-        <span>all 1024 sets loaded</span>
-        <span>each row = 16B block · bar = value magnitude</span>
+      <div className="flex items-center justify-between border-t border-white/5 px-6 py-2 pb-3 bg-bg/40 backdrop-blur-md">
+        <span className="text-[10px] font-bold tracking-widest text-text3 uppercase opacity-60">1024 sets loaded</span>
+        <span className="text-[10px] font-bold tracking-widest text-text2 uppercase">16B block size · 4-word hierarchy</span>
       </div>
     </div>
   );

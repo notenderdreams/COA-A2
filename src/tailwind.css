@@ -56,14 +56,14 @@
 
 @layer base {
   :root {
-    --bg: #1a1a1a;
-    --bg2: #222222;
-    --bg3: #2a2a2a;
-    --bg4: #313131;
-    --border: #111111;
-    --border2: #3a3a3a;
-    --text: #a9b1d6;
-    --text2: #787c99;
+    --bg: #0a0a0c;
+    --bg2: #121216;
+    --bg3: #1a1a20;
+    --bg4: #22222a;
+    --border: rgba(255, 255, 255, 0.08);
+    --border2: rgba(255, 255, 255, 0.12);
+    --text: #e2e4ed;
+    --text2: #9499b8;
     --text3: #4a4a5a;
     --green: #73daca;
     --red: #f7768e;
@@ -73,6 +73,8 @@
     --orange: #ff9e64;
     --cyan: #7dcfff;
     --mono: "JetBrains Mono", monospace;
+    --glass: rgba(18, 18, 22, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
   }
 
   * {
@@ -85,14 +87,31 @@
   body,
   #root {
     height: 100%;
+    background: var(--bg);
+    color: var(--text);
   }
 
   body {
     overflow: hidden;
-    background: var(--bg);
-    color: var(--text);
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Glassmorphism Utility */
+  .glass {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
 
   body.resizing {

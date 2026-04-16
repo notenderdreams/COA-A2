@@ -12,41 +12,46 @@ function StatsPanel({ curState, hits, misses, wbs }) {
     hits + misses > 0 ? Math.round((hits / (hits + misses)) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-0">
-      <div className="flex shrink-0 items-center justify-between border-b border-border px-3 py-2">
-        <span className="text-xs font-semibold uppercase tracking-wider text-text2">
-          Execution
-        </span>
+    <div className="flex flex-col border-b border-white/5 bg-white/[0.02]">
+      <div className="flex items-center justify-between border-b border-white/5 px-6 py-3">
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-blue shadow-[0_0_8px_rgba(122,162,247,0.5)]" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text3">
+            Realtime Statistics
+          </span>
+        </div>
         {curState && (
-          <Badge variant={curState}>{curState.replace("_", " ")}</Badge>
+          <Badge className="bg-white/5 border-white/10 text-[10px] font-bold uppercase tracking-wider text-text2 px-2 py-1">
+            {curState.replace("_", " ")}
+          </Badge>
         )}
       </div>
 
-      <div className="flex shrink-0 border-b border-border">
-        <div className="flex-1 border-r border-border px-3 py-2">
-          <div className="text-lg font-semibold text-green">{hits}</div>
-          <div className="mt-1 text-xs uppercase tracking-wide text-text3">
-            hits
+      <div className="flex">
+        <div className="flex-1 border-r border-white/5 px-6 py-4 transition-colors hover:bg-white/[0.02]">
+          <div className="text-xl font-title font-bold text-green">{hits}</div>
+          <div className="mt-1 text-[9px] font-bold uppercase tracking-widest text-text3 opacity-60">
+            HITS
           </div>
         </div>
-        <div className="flex-1 border-r border-border px-3 py-2">
-          <div className="text-lg font-semibold text-red">{misses}</div>
-          <div className="mt-1 text-xs uppercase tracking-wide text-text3">
-            misses
+        <div className="flex-1 border-r border-white/5 px-6 py-4 transition-colors hover:bg-white/[0.02]">
+          <div className="text-xl font-title font-bold text-red">{misses}</div>
+          <div className="mt-1 text-[9px] font-bold uppercase tracking-widest text-text3 opacity-60">
+            MISSES
           </div>
         </div>
-        <div className="flex-1 border-r border-border px-3 py-2">
-          <div className="text-lg font-semibold text-amber">{wbs}</div>
-          <div className="mt-1 text-xs uppercase tracking-wide text-text3">
-            writebacks
+        <div className="flex-1 border-r border-white/5 px-6 py-4 transition-colors hover:bg-white/[0.02]">
+          <div className="text-xl font-title font-bold text-amber">{wbs}</div>
+          <div className="mt-1 text-[9px] font-bold uppercase tracking-widest text-text3 opacity-60">
+            WBKS
           </div>
         </div>
-        <div className="flex-1 px-3 py-2">
-          <div className="text-lg font-semibold text-blue">
+        <div className="flex-1 px-6 py-4 transition-colors hover:bg-white/[0.02]">
+          <div className="text-xl font-title font-bold text-blue">
             {hits + misses > 0 ? hitRate + "%" : "—"}
           </div>
-          <div className="mt-1 text-xs uppercase tracking-wide text-text3">
-            hit rate
+          <div className="mt-1 text-[9px] font-bold uppercase tracking-widest text-text3 opacity-60">
+            HIT RATE
           </div>
         </div>
       </div>

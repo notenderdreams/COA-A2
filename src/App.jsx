@@ -11,7 +11,6 @@ import { FSMDiagram } from "./components/FSMDiagram";
 import { CacheTable } from "./components/CacheTable";
 import { Timeline } from "./components/Timeline";
 import { MemoryTable } from "./components/MemoryTable";
-import Topbar from "./components/TopBar";
 import Queue from "./components/Queue";
 import OpPanel from "./components/OpPanel";
 import ControlPanel from "./components/ControlPanel";
@@ -94,14 +93,20 @@ function App() {
   }, []);
 
   const activeSet = useMemo(() => {
-    return step >= 0 && step < trace.length ? trace[step].activeSet : -1;
+    return step >= 0 && step < trace.length ? trace[step]?.activeSet ?? -1 : -1;
   }, [step, trace]);
 
   const curState =
-    step >= 0 && step < trace.length ? trace[step].state : "Idle";
+    step >= 0 && step < trace.length ? trace[step]?.state || "Idle" : "Idle";
   const curSigs =
     step >= 0 && step < trace.length
-      ? trace[step].sigs
+      ? trace[step]?.sigs || {
+          stall_cpu: 0,
+          mem_read: 0,
+          mem_write: 0,
+          cache_write: 0,
+          mem_ready: 0,
+        }
       : {
           stall_cpu: 0,
           mem_read: 0,
@@ -125,10 +130,16 @@ function App() {
   const seek = useCallback(
     (idx) => {
       setRunning(false);
-      setStep(idx);
+      const limit = trace.length;
+      if (limit === 0) {
+        setStep(-1);
+        return;
+      }
+      const safeIdx = Math.max(0, Math.min(limit - 1, idx));
+      setStep(safeIdx);
       setActiveTab("cache");
     },
-    [setActiveTab],
+    [trace.length, setActiveTab],
   );
 
   useEffect(() => {
@@ -238,6 +249,7 @@ function App() {
     setCache(result.cache);
     setMem(result.mem);
     setQueue(result.queue);
+    setStep(-1);
   }
 
   function reset() {
@@ -256,7 +268,6 @@ function App() {
   const cur = step >= 0 && step < trace.length ? trace[step] : null;
   const dispCache = cur && cacheSnaps[step] ? cacheSnaps[step] : cache;
   const dispMem = cur && memSnaps[step] ? memSnaps[step] : mem;
-  const activeReqIdx = cur?.reqIdx ?? -1;
 
   const liveStats = useMemo(() => {
     if (!trace.length) return { hits: 0, misses: 0, wbs: 0 };
@@ -295,12 +306,15 @@ function App() {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden">
+    <div className="relative flex h-full flex-col overflow-hidden bg-bg selection:bg-blue/30">
+      {/* Background Decorative Gradients */}
+      <div className="pointer-events-none absolute -left-[10%] -top-[10%] h-[40%] w-[40%] rounded-full bg-blue/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-[10%] -bottom-[10%] h-[40%] w-[40%] rounded-full bg-purple/10 blur-[120px]" />
+
       <WelcomeModal />
-      {/* <Topbar running={running} total={total} /> */}
       <div ref={mainRef} className="flex min-h-0 flex-1 overflow-hidden">
         <div
-          className="flex min-w-55 flex-col overflow-hidden"
+          className="flex min-w-55 flex-col overflow-hidden border-r border-white/5 bg-white/[0.02] backdrop-blur-sm"
           style={{ width: leftPct + "%", flexShrink: 0, flexGrow: 0 }}
         >
           <div className="flex min-h-0 flex-1 items-center justify-center px-4 pb-2 pt-4">
@@ -325,7 +339,6 @@ function App() {
               </div>
             </div>
           </div>
-          <Queue queue={queue} activeReqIdx={activeReqIdx} />
           <OpPanel
             addrStr={addrStr}
             setAddrStr={setAddrStr}
@@ -393,6 +406,7 @@ function App() {
           </Tabs>
           <Timeline
             trace={trace}
+            queue={queue}
             step={step}
             running={running}
             stateDur={SDUR[curState] || 700}

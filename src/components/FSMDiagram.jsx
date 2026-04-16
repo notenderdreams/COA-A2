@@ -6,6 +6,10 @@ export const FSMDiagram = memo(function FSMDiagram({
   fillPct,
   activeEdge,
 }) {
+  const safeFillPct = Number.isFinite(fillPct)
+    ? Math.max(0, Math.min(1, fillPct))
+    : 0;
+
   const edges = [
     { f: "Idle", t: "Compare_Tag", lbl: "Valid CPU request", cp: null },
     {
@@ -208,7 +212,7 @@ export const FSMDiagram = memo(function FSMDiagram({
           Write_Back: "evict dirty",
           Allocate: "fetch block",
         }[id];
-        const fillH = Math.min(NR * 2 * fillPct, NR * 2);
+        const fillH = Math.min(NR * 2 * safeFillPct, NR * 2);
         const fillY = cy + NR - fillH;
         return (
           <g key={id}>
@@ -239,7 +243,7 @@ export const FSMDiagram = memo(function FSMDiagram({
                 style={{ transition: "none" }}
               />
             )}
-            {isAct && fillPct > 0.02 && fillPct < 0.99 && (
+            {isAct && safeFillPct > 0.02 && safeFillPct < 0.99 && (
               <line
                 clipPath={`url(#clip-${id})`}
                 x1={cx - NR}
@@ -248,7 +252,7 @@ export const FSMDiagram = memo(function FSMDiagram({
                 y2={fillY}
                 stroke={sc.col}
                 strokeWidth={1.2}
-                opacity={Math.min(fillPct * 3, 0.8)}
+                opacity={Math.min(safeFillPct * 3, 0.8)}
                 style={{ transition: "none" }}
               />
             )}
