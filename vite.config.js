@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/fsm/",
+  base: "/COA-A2/",
   plugins: [react(), tailwindcss()],
 });
