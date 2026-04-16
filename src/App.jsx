@@ -57,9 +57,19 @@ function App() {
   const [memSnaps, setMemSnaps] = useState([]);
   const [activeTab, setActiveTab] = useState("presets");
   const runRef = useRef();
+  const traceLenRef = useRef(0);
+  const queueLenRef = useRef(0);
   const [leftPct, setLeftPct] = useState(58);
   const [isResizing, setIsResizing] = useState(false);
   const mainRef = useRef(null);
+
+  useEffect(() => {
+    traceLenRef.current = trace.length;
+  }, [trace.length]);
+
+  useEffect(() => {
+    queueLenRef.current = queue.length;
+  }, [queue.length]);
 
   useEffect(() => {
     document.body.classList.toggle("resizing", isResizing);
@@ -198,10 +208,13 @@ function App() {
   function enqueue(type, addr, data) {
     const req = { type, addr, data };
     const { steps, newCache, newMem } = simulateReq(req, cache, mem);
-    const reqIdx = queue.length;
+    const reqIdx = queueLenRef.current;
+    const cycleStart = traceLenRef.current;
+    queueLenRef.current += 1;
+    traceLenRef.current += steps.length;
     const newSteps = steps.map((s, i) => ({
       ...s,
-      cycle: trace.length + i + 1,
+      cycle: cycleStart + i + 1,
       reqIdx,
     }));
     const newSnaps = steps.map((_, i) =>
@@ -250,6 +263,8 @@ function App() {
     setMem(result.mem);
     setQueue(result.queue);
     setStep(-1);
+    traceLenRef.current = result.trace.length;
+    queueLenRef.current = result.queue.length;
   }
 
   function reset() {
@@ -263,6 +278,8 @@ function App() {
     setQueue([]);
     setCache(makeCache());
     setMem({});
+    traceLenRef.current = 0;
+    queueLenRef.current = 0;
   }
 
   const cur = step >= 0 && step < trace.length ? trace[step] : null;

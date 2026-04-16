@@ -17,6 +17,7 @@ export const FSMDiagram = memo(function FSMDiagram({
       t: "Idle",
       lbl: "Cache Hit / Mark Ready",
       cp: { x: 200, y: 30 },
+      lblOff: { x: 0, y: 14 },
     },
     { f: "Compare_Tag", t: "Write_Back", lbl: "Miss + Dirty", cp: null },
     {
@@ -80,10 +81,12 @@ export const FSMDiagram = memo(function FSMDiagram({
       const cpx = e.cp.x,
         cpy = e.cp.y;
       const isAlloc2Cmp = e.f === "Allocate" && e.t === "Compare_Tag";
-      const lmx = isAlloc2Cmp ? cpx - 18 : cpx;
+      const lmx = (isAlloc2Cmp ? cpx - 18 : cpx) + (e.lblOff?.x ?? 0);
       const lmy =
         cpy +
-        (e.f === "Compare_Tag" && e.t === "Idle"
+        ((e.lblOff?.y ?? null) !== null
+          ? e.lblOff.y
+          : e.f === "Compare_Tag" && e.t === "Idle"
           ? -10
           : e.f === "Write_Back"
             ? 14

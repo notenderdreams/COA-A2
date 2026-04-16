@@ -15,9 +15,8 @@ function StatsPanel({ curState, hits, misses, wbs }) {
     <div className="flex flex-col border-b border-white/5 bg-white/[0.02]">
       <div className="flex items-center justify-between border-b border-white/5 px-6 py-3">
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-blue shadow-[0_0_8px_rgba(122,162,247,0.5)]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text3">
-            Realtime Statistics
+            Statistics
           </span>
         </div>
         {curState && (

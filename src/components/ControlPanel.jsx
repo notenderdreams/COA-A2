@@ -40,7 +40,6 @@ function ControlPanel({
     setRunning((r) => !r);
   };
 
-  const iconProps = { size: 16, className: "icon" };
   const stateColorClass = {
     Idle: "text-green",
     Compare_Tag: "text-blue",

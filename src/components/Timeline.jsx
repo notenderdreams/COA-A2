@@ -34,7 +34,7 @@ const TimelineRow = memo(function TimelineRow({
 }) {
   return (
     <div className="flex h-7 items-center group/row">
-      <div 
+      <div
         className="sticky left-0 z-20 flex h-full items-center justify-end pr-4 text-[10px] font-bold uppercase tracking-widest text-text3 bg-bg2/80 backdrop-blur-md border-r border-white/5"
         style={{ width: LABEL_WIDTH }}
       >
@@ -42,15 +42,22 @@ const TimelineRow = memo(function TimelineRow({
       </div>
       <div className="relative h-full flex-1">
         {sg.map((seg, i) => {
-          const c = isRequest ? { bg: "rgba(255,255,255,0.03)", bd: "rgba(255,255,255,0.1)", tx: "var(--text2)" } : cf(seg.v);
+          const c = isRequest
+            ? {
+                bg: "rgba(255,255,255,0.03)",
+                bd: "rgba(255,255,255,0.1)",
+                tx: "var(--text2)",
+              }
+            : cf(seg.v);
           if (!c && !isRequest) return null;
-          
+
           return (
             <div
               key={i}
               className={cn(
-                "absolute top-1 flex h-5 items-center justify-center overflow-hidden rounded-md px-2 text-[9px] font-bold transition-all hover:brightness-125 cursor-pointer select-none",
-                isRequest && "border border-white/5 bg-white/[0.02] text-[10px] tracking-tight"
+                "absolute top-1 flex h-5 items-center justify-center overflow-hidden rounded-sm px-2 text-[9px] font-bold transition-all hover:brightness-125 cursor-pointer select-none",
+                isRequest &&
+                  "border border-white/5 bg-white/[0.02] text-[10px] tracking-tight",
               )}
               style={{
                 left: seg.s * CYCLE_WIDTH,
@@ -64,13 +71,19 @@ const TimelineRow = memo(function TimelineRow({
               {isRequest ? (
                 <span className="truncate drop-shadow-sm">
                   {seg.v?.type ?? "?"}
-                  <span className="opacity-40 ml-1">0x{formatAddr(seg.v?.addr)}</span>
+                  <span className="opacity-40 ml-1">
+                    0x{formatAddr(seg.v?.addr)}
+                  </span>
                   {formatTimestamp(seg.v) ? (
-                    <span className="opacity-30 ml-1">@{formatTimestamp(seg.v)}</span>
+                    <span className="opacity-30 ml-1">
+                      @{formatTimestamp(seg.v)}
+                    </span>
                   ) : null}
                 </span>
               ) : (
-                <span className="truncate px-1 opacity-80 uppercase tracking-tighter">{formatSegmentValue(seg.v)}</span>
+                <span className="truncate px-1 opacity-80 uppercase tracking-tighter">
+                  {formatSegmentValue(seg.v)}
+                </span>
               )}
             </div>
           );
@@ -128,11 +141,11 @@ export const Timeline = memo(function Timeline({
       const container = scrollRef.current;
       const viewWidth = container.clientWidth - LABEL_WIDTH;
       const currentScroll = container.scrollLeft;
-      
+
       if (scrollPos < currentScroll || scrollPos > currentScroll + viewWidth) {
         container.scrollTo({
           left: scrollPos - viewWidth / 2,
-          behavior: running ? "auto" : "smooth"
+          behavior: running ? "auto" : "smooth",
         });
       }
     }
@@ -144,7 +157,10 @@ export const Timeline = memo(function Timeline({
     let i = 0;
     while (i < total) {
       const reqIdx = trace[i].reqIdx;
-      if (reqIdx === undefined) { i++; continue; }
+      if (reqIdx === undefined) {
+        i++;
+        continue;
+      }
       const reqData = queue[reqIdx];
       let j = i + 1;
       while (j < total && trace[j].reqIdx === reqIdx) j++;
@@ -174,9 +190,11 @@ export const Timeline = memo(function Timeline({
       <div className="shrink-0 border-t border-white/5 bg-bg2/50 backdrop-blur-xl px-6 py-4">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text3">
-            Execution Timeline
+            Timeline
           </span>
-          <span className="text-[10px] text-text3/40 uppercase font-medium">Waiting for operation...</span>
+          <span className="text-[10px] text-text3/40 uppercase font-medium">
+            Waiting for operation...
+          </span>
         </div>
       </div>
     );
@@ -186,38 +204,41 @@ export const Timeline = memo(function Timeline({
     <div className="flex shrink-0 flex-col border-t border-white/10 bg-bg2/40 backdrop-blur-2xl">
       <div className="flex items-center justify-between px-6 py-3 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className="h-1.5 w-1.5 rounded-full bg-purple animate-pulse shadow-[0_0_8px_rgba(187,154,247,0.5)]" />
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-text3">
-            Execution Timeline
+            Timeline
           </span>
         </div>
-        <div className="flex items-center gap-4 text-[10px] font-bold text-text2 opacity-40 uppercase">
-          <span className="flex items-center gap-1.5"><div className="h-1 w-3 rounded-full bg-blue" /> Read</span>
-          <span className="flex items-center gap-1.5"><div className="h-1 w-3 rounded-full bg-purple" /> Write</span>
-          <span className="flex items-center gap-1.5"><div className="h-1 w-3 rounded-full bg-amber" /> Cache</span>
-        </div>
       </div>
-      
-      <div 
+
+      <div
         ref={scrollRef}
         className="relative overflow-x-auto overflow-y-hidden no-scrollbar pb-2"
         onClick={(e) => {
           if (e.target !== e.currentTarget) return;
           const rect = e.currentTarget.getBoundingClientRect();
-          const x = e.clientX - rect.left + e.currentTarget.scrollLeft - LABEL_WIDTH;
+          const x =
+            e.clientX - rect.left + e.currentTarget.scrollLeft - LABEL_WIDTH;
           if (x >= 0) onSeek(Math.floor(x / CYCLE_WIDTH));
         }}
       >
-        <div style={{ width: total * CYCLE_WIDTH + LABEL_WIDTH, minWidth: "100%" }}>
+        <div
+          style={{ width: total * CYCLE_WIDTH + LABEL_WIDTH, minWidth: "100%" }}
+        >
           {/* Header cycles numbers */}
           <div className="flex h-6 items-center">
-            <div style={{ width: LABEL_WIDTH }} className="sticky left-0 z-20 bg-bg2/80 backdrop-blur-md border-r border-white/5 h-full" />
+            <div
+              style={{ width: LABEL_WIDTH }}
+              className="sticky left-0 z-20 bg-bg2/80 backdrop-blur-md border-r border-white/5 h-full"
+            />
             <div className="relative flex-1 h-full">
               {Array.from({ length: total }).map((_, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="absolute top-2 text-[9px] font-bold text-text3/30"
-                  style={{ left: i * CYCLE_WIDTH + CYCLE_WIDTH / 2, transform: "translateX(-50%)" }}
+                  style={{
+                    left: i * CYCLE_WIDTH + CYCLE_WIDTH / 2,
+                    transform: "translateX(-50%)",
+                  }}
                 >
                   {i}
                 </div>
@@ -244,9 +265,18 @@ export const Timeline = memo(function Timeline({
             onSeek={onSeek}
           />
 
-          <div className="my-1 border-t border-white/5" style={{ marginLeft: LABEL_WIDTH }} />
+          <div
+            className="my-1 border-t border-white/5"
+            style={{ marginLeft: LABEL_WIDTH }}
+          />
 
-          {["stall_cpu", "mem_read", "mem_write", "cache_write", "mem_ready"].map((sig) => {
+          {[
+            "stall_cpu",
+            "mem_read",
+            "mem_write",
+            "cache_write",
+            "mem_ready",
+          ].map((sig) => {
             const sg = [];
             let i = 0;
             while (i < total) {
@@ -270,23 +300,27 @@ export const Timeline = memo(function Timeline({
           })}
 
           {/* Playhead Indicator */}
-          <div 
+          <div
             className="absolute top-6 bottom-0 z-30 pointer-events-none transition-opacity duration-300"
-            style={{ 
+            style={{
               left: phX + LABEL_WIDTH,
-              width: 2, 
-              background: "linear-gradient(to bottom, transparent, var(--blue), var(--purple), transparent)",
-              boxShadow: "0 0 15px rgba(122, 162, 247, 0.4)"
+              width: 2,
+              background:
+                "linear-gradient(to bottom, transparent, var(--blue), var(--purple), transparent)",
+              boxShadow: "0 0 15px rgba(122, 162, 247, 0.4)",
             }}
           >
             <div className="absolute top-0 -left-[5px] h-2.5 w-2.5 rounded-full bg-blue ring-4 ring-blue/10" />
           </div>
-          
+
           {/* Cycle background grids */}
-          <div className="absolute top-6 bottom-0 -z-10 pointer-events-none" style={{ left: LABEL_WIDTH }}>
+          <div
+            className="absolute top-6 bottom-0 -z-10 pointer-events-none"
+            style={{ left: LABEL_WIDTH }}
+          >
             {Array.from({ length: total }).map((_, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="absolute top-0 bottom-0 border-l border-white/5"
                 style={{ left: i * CYCLE_WIDTH, width: CYCLE_WIDTH }}
               />

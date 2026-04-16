@@ -85,10 +85,10 @@ export default function WelcomeModal() {
             <span className="relative z-10">Launch Environment</span>
             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue/20 to-purple/20 transition-transform duration-500 group-hover:translate-x-0" />
           </button>
-          
+{/*           
           <p className="mt-6 text-[10px] text-text3 font-medium uppercase tracking-widest">
             230041234 & 230041262
-          </p>
+          </p> */}
         </div>
       </div>
     </div>,
