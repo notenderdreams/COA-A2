@@ -145,10 +145,7 @@ export const CacheTable = memo(function CacheTable({
           </tbody>
         </table>
       </div>
-      <div className="flex items-center justify-between border-t border-white/5 px-6 py-2 pb-3 bg-bg/40 backdrop-blur-md">
-        <span className="text-[10px] font-bold tracking-widest text-text3 uppercase opacity-60">1024 sets loaded</span>
-        <span className="text-[10px] font-bold tracking-widest text-text2 uppercase">16B block size · 4-word hierarchy</span>
-      </div>
+
     </div>
   );
 });
